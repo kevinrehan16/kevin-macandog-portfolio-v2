@@ -55,7 +55,7 @@ const TypewriterRoles = () => {
         {/* Cursor - Binawasan din ang width para mas sleek */}
         <motion.span
           animate={{ opacity: [1, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity, ease: "steps(2)" }}
+          transition={{ duration: 0.5, repeat: Infinity, ease: "steps(2)" as any }}
           className="inline-block w-[1.5px] h-6 bg-violet-400 mx-1"
         />
 
