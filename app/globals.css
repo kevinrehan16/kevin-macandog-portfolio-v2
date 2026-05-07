@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 2, 6, 23;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+  /* Smooth scroll para sa Framer Motion links */
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar para magmukhang pro */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+}
+
+/* src/app/globals.css */
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    
+    /* Vivid Violet Base */
+    --primary: 270 95% 60%; 
+    --primary-foreground: 0 0% 100%;
+    
+    /* Magenta Accent */
+    --accent: 300 100% 50%;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    /* Mix ng Violet at Magenta glow */
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(217, 70, 239, 0.3);
+  }
+
+  .glass {
+    background: rgba(15, 15, 20, 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Binago mula es5 para mas mabilis ang compilation
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts", // <--- Mas specific na ngayon (src folder lang)
+    "src/**/*.tsx", // <--- Mas specific na ngayon
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next", // I-exclude ang build folder para di na i-scan ng TS
+    "out",
+    "build"
+  ]
+}
