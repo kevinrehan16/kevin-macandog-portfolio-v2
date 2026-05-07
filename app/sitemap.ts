@@ -2,7 +2,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://kevin-macandog.vercel.app/'; // Palitan mo ng actual domain mo
+  const baseUrl = 'https://kevin-macandog.vercel.app'; // Palitan mo ng actual domain mo
 
   return [
     {

@@ -21,8 +21,8 @@ export const metadata = {
     canonical: "https://kevinmacandog.com", // Palitan mo ng actual domain mo
   },
   openGraph: {
-    title: "Kevin Macandog | Full Stack Developer Portfolio",
-    description: "Explore the interactive portfolio of Kevin Macandog, a Software Developer focused on modern web technologies.",
+    title: "Kevin Macandog | Portfolio",
+    description: "Professional Full Stack Software Developer Portfolio",
     icons: {
       icon: [
         {
@@ -38,14 +38,14 @@ export const metadata = {
         },
       ],
     },
-    url: "https://kevinmacandog.com",
+    url: "https://kevin-macandog.vercel.app",
     siteName: "Kevin Macandog Portfolio",
     images: [
       {
-        url: "/img/me.jpg", // Siguraduhin na .png o .jpg ang tama
+        url: "/img/my-website.jpg", // Siguraduhin na .png o .jpg ang tama
         width: 1200,
         height: 630,
-        alt: "Kevin Macandog Portfolio Preview",
+        alt: "Kevin Macandog - Full Stack Developer",
       },
     ],
     locale: "en_US",

@@ -108,13 +108,15 @@ const Hero = () => {
             >
               <FaBriefcase /> INITIALIZE PROJECT
             </motion.button>
-            <motion.button 
+            <motion.a
+              href="/file/Macandog_Kevin_CV.pdf" 
+              download="Macandog_Kevin_CV"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)" }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-8 py-4 rounded-full border border-white/10 text-white text-xs font-bold tracking-widest transition-all"
+              className="flex items-center gap-2 px-8 py-4 rounded-full border border-white/10 text-white text-xs font-bold tracking-widest transition-all cursor-pointer"
             >
               <FaDownload /> DOWNLOAD CV
-            </motion.button>
+            </motion.a>
           </motion.div>
         </div>
 
