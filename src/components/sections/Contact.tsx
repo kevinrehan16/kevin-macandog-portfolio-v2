@@ -3,8 +3,14 @@ import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Mail, Phone, ArrowUpRight } from "lucide-react";
 
+interface AnimatedFieldProps {
+  type?: string;
+  placeholder: string;
+  isTextArea?: boolean;
+}
+
 // --- CUSTOM ANIMATED INPUT COMPONENT ---
-const AnimatedField = ({ type = "text", placeholder, isTextArea = false }) => {
+const AnimatedField = ({ type = "text", placeholder, isTextArea = false }: AnimatedFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const baseStyles = "w-full bg-transparent py-4 text-white outline-none font-mono text-xs tracking-widest uppercase placeholder:text-slate-700 transition-all";

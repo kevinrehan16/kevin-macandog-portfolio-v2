@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import * as THREE from "three";
 
 function StarBackground() {
-  const ref = useRef<any>();
+  const ref = useRef<THREE.Points>(null!);
   
   // Imbes na 'maath', tayo na mismo ang gagawa ng random points sa sphere
   const [sphere] = useState(() => {

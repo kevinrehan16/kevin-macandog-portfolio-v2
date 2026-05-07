@@ -48,8 +48,8 @@ const ProjectCard = ({ p, index }: { p: any; index: number }) => {
           style={{
             background: useTransform(
               [mouseXSpring, mouseYSpring],
-              ([mx, my]) => `radial-gradient(450px circle at ${(mx + 0.5) * 100}% ${(my + 0.5) * 100}%, rgba(139, 92, 246, 0.2), transparent 80%)`
-            )
+              ([mx, my]) => `radial-gradient(450px circle at ${(mx as number + 0.5) * 100}% ${(my as number + 0.5) * 100}%, rgba(139, 92, 246, 0.2), transparent 80%)`
+            ) as any // FIX: I-cast ang buong useTransform as any
           }}
         />
 

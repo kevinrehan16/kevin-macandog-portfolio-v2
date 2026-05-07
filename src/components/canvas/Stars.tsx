@@ -3,20 +3,31 @@
 import { useState, useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Preload } from "@react-three/drei";
-import * as random from "maath/random/dist/maath-random.esm";
+import * as THREE from "three"; // Gagamit tayo ng THREE types
 
 function StarParticles(props: any) {
-  const ref = useRef<any>();
+  // FIX: Nilagyan ng tamang type ang useRef
+  const ref = useRef<THREE.Points>(null!); 
   
-  // Ginawang 6000 para divisible sa 3 (x, y, z)
+  // FIX: Custom random sphere points generator (imbes na maath)
   const [sphere] = useState(() => {
-    const s = random.inSphere(new Float32Array(6000), { radius: 1.2 }) as Float32Array;
+    const numPoints = 2000; // 2000 points * 3 (x,y,z) = 6000 values
+    const points = new Float32Array(numPoints * 3);
     
-    // Safety check: Siguraduhing walang NaN values
-    for (let i = 0; i < s.length; i++) {
-      if (isNaN(s[i])) s[i] = 0;
+    for (let i = 0; i < numPoints; i++) {
+      const r = 1.2;
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.sin(phi) * Math.sin(theta);
+      const z = r * Math.cos(phi);
+      
+      points.set([x, y, z], i * 3);
     }
-    return s;
+    return points;
   });
 
   useFrame((state, delta) => {
