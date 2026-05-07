@@ -12,7 +12,12 @@ const InteractiveBackground = () => {
     if (!ctx) return;
 
     let particles: Particle[] = [];
-    const mouse = { x: null, y: null, radius: 170 };
+    // FIX: Nilagyan ng types ang mouse para hindi mag-error sa calculation
+    const mouse: { x: number | null, y: number | null, radius: number } = { 
+      x: null, 
+      y: null, 
+      radius: 170 
+    };
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -27,9 +32,9 @@ const InteractiveBackground = () => {
       size: number;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        // Bagal ng galaw
+        // FIX: Gamitan ng ! (non-null assertion)
+        this.x = Math.random() * canvas!.width;
+        this.y = Math.random() * canvas!.height;
         this.directionX = (Math.random() * 0.5) - 0.25;
         this.directionY = (Math.random() * 0.5) - 0.25;
         this.size = Math.random() * 2 + 1;
@@ -39,25 +44,27 @@ const InteractiveBackground = () => {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = "#8b5cf6"; // Violet color
+        ctx.fillStyle = "#8b5cf6"; 
         ctx.fill();
       }
 
       update() {
-        // Bounce sa walls
-        if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-        if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+        // FIX: Gamitan ng ! sa canvas width/height
+        if (this.x > canvas!.width || this.x < 0) this.directionX = -this.directionX;
+        if (this.y > canvas!.height || this.y < 0) this.directionY = -this.directionY;
 
         // Mouse proximity movement
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < mouse.radius) {
-          if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 2;
-          if (mouse.x > this.x && this.x > this.size * 10) this.x -= 2;
-          if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 2;
-          if (mouse.y > this.y && this.y > this.size * 10) this.y -= 2;
+          if (distance < mouse.radius) {
+            if (mouse.x < this.x && this.x < canvas!.width - this.size * 10) this.x += 2;
+            if (mouse.x > this.x && this.x > this.size * 10) this.x -= 2;
+            if (mouse.y < this.y && this.y < canvas!.height - this.size * 10) this.y += 2;
+            if (mouse.y > this.y && this.y > this.size * 10) this.y -= 2;
+          }
         }
 
         this.x += this.directionX;
@@ -66,7 +73,6 @@ const InteractiveBackground = () => {
       }
     }
 
-    // Connect particles with lines
     const connect = () => {
       let opacityValue = 1;
       for (let a = 0; a < particles.length; a++) {
@@ -75,9 +81,9 @@ const InteractiveBackground = () => {
           let dy = particles[a].y - particles[b].y;
           let distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+          if (distance < (canvas!.width / 7) * (canvas!.height / 7)) {
             opacityValue = 1 - (distance / 150);
-            ctx.strokeStyle = `rgba(139, 92, 246, ${opacityValue})`; // Violet lines
+            ctx.strokeStyle = `rgba(139, 92, 246, ${opacityValue})`; 
             ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -90,14 +96,14 @@ const InteractiveBackground = () => {
 
     const init = () => {
       particles = [];
-      let numberOfParticles = (canvas.height * canvas.width) / 9000;
+      let numberOfParticles = (canvas!.height * canvas!.width) / 9000;
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle());
       }
     };
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
       }
@@ -105,19 +111,27 @@ const InteractiveBackground = () => {
       requestAnimationFrame(animate);
     };
 
-    window.addEventListener("mousemove", (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
-    });
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
 
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       resize();
       init();
-    });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
 
     resize();
     init();
     animate();
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
