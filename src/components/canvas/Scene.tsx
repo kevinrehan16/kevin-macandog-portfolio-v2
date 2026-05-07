@@ -3,14 +3,29 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import { useRef, useState } from "react";
-// @ts-ignore
-import * as random from "maath/random/dist/maath-random.esm";
+import * as THREE from "three";
 
 function StarBackground() {
   const ref = useRef<any>();
-  const [sphere] = useState(() => 
-    random.inSphere(new Float32Array(5000), { radius: 1.5 }) as Float32Array
-  );
+  
+  // Imbes na 'maath', tayo na mismo ang gagawa ng random points sa sphere
+  const [sphere] = useState(() => {
+    const points = new Float32Array(5000 * 3);
+    for (let i = 0; i < 5000; i++) {
+      const r = 1.5;
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.sin(phi) * Math.sin(theta);
+      const z = r * Math.cos(phi);
+      
+      points.set([x, y, z], i * 3);
+    }
+    return points;
+  });
 
   useFrame((state, delta) => {
     if (ref.current) {
