@@ -9,20 +9,17 @@ import { SiNextdotjs, SiTailwindcss, SiTypescript, SiThreedotjs } from "react-ic
 
 const Scene = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const meshRef = useRef<THREE.Mesh>(null);
   
-  // Siguraduhin na ang path ay tama: /public/img/gates.jpg
+  // FIX 1: Gamitin ang null! (Non-null assertion) para sabihing magkakalaman ito
+  const meshRef = useRef<THREE.Mesh>(null!); 
+  
   const texture = useLoader(THREE.TextureLoader, "/img/gates.jpg");
 
   useFrame((state) => {
     if (groupRef.current) {
-      // Main rotation (Horizontal ikot)
       groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.4;
-      
-      // --- SLANT EFFECT ---
-      // Ang axis rotation na ito ang nagpapakiling sa orbit
-      groupRef.current.rotation.x = 0.5; // Tilt forward/backward
-      groupRef.current.rotation.z = 0.2; // Tilt side to side
+      groupRef.current.rotation.x = 0.5;
+      groupRef.current.rotation.z = 0.2;
     }
   });
 
@@ -37,19 +34,16 @@ const Scene = () => {
 
   return (
     <group>
-      {/* --- CENTER PICTURE (Blocker for Occlusion) --- */}
       <mesh ref={meshRef}>
         <circleGeometry args={[2.2, 64]} />
         <meshBasicMaterial map={texture} side={THREE.DoubleSide} transparent />
       </mesh>
 
-      {/* Subtle Glow Ring sa likod ng pic */}
       <mesh position={[0, 0, -0.01]}>
         <circleGeometry args={[2.25, 64]} />
         <meshBasicMaterial color="#8b5cf6" transparent opacity={0.2} />
       </mesh>
 
-      {/* --- SLANTED ROTATING TECH LOGOS --- */}
       <group ref={groupRef}>
         {techStack.map((tech, index) => {
           const angle = (index / techStack.length) * Math.PI * 2;
@@ -62,9 +56,10 @@ const Scene = () => {
               <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
                 <Html 
                   transform 
-                  sprite // Laging nakaharap sa user ang logo kahit slanted ang orbit
+                  sprite 
                   distanceFactor={10} 
-                  occlude={[meshRef]} // Nawawala kapag dumaan sa likod ng pic
+                  // FIX 2: I-cast as any para hindi na mag-error sa Build
+                  occlude={[meshRef] as any} 
                   style={{
                     transition: 'all 0.5s',
                     opacity: 1
@@ -88,7 +83,6 @@ export default function RelicsCanvas() {
     <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none w-full h-full min-h-[600px]">
       <Canvas 
         camera={{ position: [0, 0, 12], fov: 40 }}
-        // Mahalaga ang overflow: visible para hindi maputol ang logos sa gilid ng "box"
         style={{ width: '100%', height: '100%', overflow: 'visible' }}
       >
         <PerspectiveCamera makeDefault position={[0, 0, 12]} />
