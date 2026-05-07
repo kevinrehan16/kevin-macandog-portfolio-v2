@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/private/', // Kung may admin page ka na ayaw mo ma-search
     },
-    sitemap: 'https://kevinmacandog.com/sitemap.xml', // Match dapat sa domain mo
+    sitemap: 'https://kevin-macandog.vercel.app/sitemap.xml', // Match dapat sa domain mo
   };
 }
