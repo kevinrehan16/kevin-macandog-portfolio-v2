@@ -3,8 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils"; // Siguraduhing tama ang import path na 'to
 import Navbar from "@/components/shared/Navbar";
-import StarsCanvas from "@/components/canvas/Stars";
+// import StarsCanvas from "@/components/canvas/Stars";
 import CustomCursor from "@/components/shared/CustomCursor";
+import ScrollToTop from "@/components/shared/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -72,6 +73,7 @@ export default function RootLayout({
         <CustomCursor />
         <Navbar />
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );

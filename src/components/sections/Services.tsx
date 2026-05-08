@@ -59,70 +59,69 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="services" className="py-24 relative overflow-hidden bg-[#030014]">
+    <section id="services" className="py-20 md:py-32 relative overflow-hidden bg-[#030014]">
       
       {/* Background Noise Texture */}
-      <div className="absolute inset-0 z-0 opacity-[0.07]" 
+      <div className="absolute inset-0 z-0 opacity-[0.07] pointer-events-none" 
            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Header Section */}
-        <div className="mb-20 px-4">
+        <div className="mb-16 md:mb-24 px-2">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            // Binago: Inalis ang once: true para mag-animate ulit
             viewport={{ once: false, amount: 0.3 }}
             className="space-y-4"
           >
             <div className="flex items-center gap-3">
-              <div className="h-[2px] w-12 bg-violet-500" />
-              <span className="text-violet-500 font-mono text-xs tracking-[0.5em] uppercase font-bold">Specializations</span>
+              <div className="h-[2px] w-8 md:w-12 bg-violet-500" />
+              <span className="text-violet-500 font-mono text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold">Specializations</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase leading-none">
+            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase leading-[1.1]">
               Services <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-600">Offered</span>
             </h2>
           </motion.div>
         </div>
 
-        {/* Rounded Bento-style Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Rounded Bento-style Grid (Responsive spacing fix) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {services.map((service, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              // Binago: Para kada scroll up/down mag-trigger ang cards
               viewport={{ once: false, amount: 0.2 }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
               whileHover={{ scale: 1.02 }}
               className={cn(
-                "group relative p-10 rounded-[2.5rem] border border-white/5 bg-white/[0.03] backdrop-blur-xl transition-all duration-500",
+                "group relative p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-white/5 bg-white/[0.03] backdrop-blur-xl transition-all duration-500",
                 "hover:border-white/10 hover:bg-white/[0.05] hover:shadow-2xl",
                 service.glow
               )}
             >
               {/* Subtle Gradient Inner Glow */}
               <div className={cn(
-                "absolute inset-0 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10 bg-gradient-to-br",
+                "absolute inset-0 rounded-[2rem] md:rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10 bg-gradient-to-br",
                 service.color
               )} />
 
-              <div className="mb-8 p-5 w-fit rounded-3xl bg-white/5 border border-white/10 group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
+              {/* Icon Container (Responsive size) */}
+              <div className="mb-6 md:mb-8 p-4 md:p-5 w-fit rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
                 {service.icon}
               </div>
 
-              <h3 className="text-2xl font-bold text-white mb-4 transition-colors group-hover:text-violet-300">
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 transition-colors group-hover:text-violet-300">
                 {service.title}
               </h3>
               
-              <p className="text-slate-400 group-hover:text-slate-300 text-sm leading-relaxed mb-10 transition-colors">
+              <p className="text-slate-400 group-hover:text-slate-300 text-xs md:text-sm leading-relaxed mb-8 md:mb-10 transition-colors">
                 {service.description}
               </p>
 
-              {/* Minimalist Action Indicator */}
-              <div className="flex items-center text-[10px] font-black text-violet-400 uppercase tracking-[0.2em] opacity-50 group-hover:opacity-100 transition-all duration-300">
+              {/* Action Indicator */}
+              <div className="flex items-center text-[9px] md:text-[10px] font-black text-violet-400 uppercase tracking-[0.2em] opacity-50 group-hover:opacity-100 transition-all duration-300">
                 Service Details
                 <span className="ml-2 transition-transform duration-300 group-hover:translate-x-2">→</span>
               </div>
