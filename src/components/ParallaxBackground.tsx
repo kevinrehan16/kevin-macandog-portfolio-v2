@@ -106,13 +106,36 @@ const ContactAndFooter = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center pt-12 text-center">
           
           {/* LOGO - CENTERED */}
-          <Link href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="group mb-8 block">
+          <Link 
+            href="/" 
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} 
+            className="group mb-8 block relative"
+          >
+            {/* The Pulsing Glow Layer (Nasa likod ng image) */}
+            <div className="
+              absolute inset-0 
+              rounded-full 
+              bg-violet-500/20 
+              blur-md 
+              opacity-0 
+              pointer-events-none
+            " />
+
             <Image 
               src="/img/logo.png" 
               alt="Logo" 
               width={60} 
               height={60} 
-              className="opacity-80 group-hover:opacity-100 transition-all duration-500 filter grayscale group-hover:grayscale-0"
+              className="
+                relative z-10
+                transition-all duration-500 
+                opacity-80
+                filter grayscale
+                group-hover:opacity-100 
+                group-hover:!grayscale-0
+                /* Dito natin ilalagay yung animation logic para sa color flash */
+                animate-[logoFlash_5s_ease-in-out_infinite]
+              "
             />
           </Link>
 
@@ -125,12 +148,7 @@ const ContactAndFooter = () => {
             <div className="flex items-center gap-4 text-slate-600 font-mono text-[10px]">
               <span className="tracking-tighter">{lat}, {lng}</span>
               <div className="h-4 w-[1px] bg-white/10" />
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="hover:text-white transition-colors uppercase tracking-widest flex items-center gap-1"
-              >
-                Back to top <ArrowUp size={12} />
-              </button>
+              <span className="tracking-tighter">My-Portfolio v.2.100.100</span>
             </div>
           </div>
 

@@ -5,14 +5,15 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Cpu, Briefcase, User, Mail, Monitor, Menu, X, Handshake } from "lucide-react";
+import { Cpu, Briefcase, User, Mail, Monitor, Menu, X, Handshake, Road } from "lucide-react";
 
 const navLinks = [
-  { name: "Home", href: "/", id: "home", icon: <Cpu size={22} /> },
-  { name: "About", href: "#about", id: "about", icon: <User size={22} /> },
-  { name: "Projects", href: "#projects", id: "projects", icon: <Briefcase size={22} /> },
-  { name: "Services", href: "#services", id: "services", icon: <Monitor size={22} /> },
-  { name: "Contact", href: "#contact", id: "contact", icon: <Mail size={22} /> },
+  { name: "Home", href: "/", id: "home", icon: <Cpu size={15} /> },
+  { name: "About", href: "#about", id: "about", icon: <User size={15} /> },
+  { name: "Projects", href: "#projects", id: "projects", icon: <Briefcase size={15} /> },
+  { name: "Careers", href: "#careers", id: "careers", icon: <Road size={15} /> },
+  { name: "Services", href: "#services", id: "services", icon: <Monitor size={15} /> },
+  { name: "Contact", href: "#contact", id: "contact", icon: <Mail size={15} /> },
 ];
 
 const Navbar = () => {
@@ -81,7 +82,7 @@ const Navbar = () => {
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className={cn(
-            "pointer-events-auto flex items-center gap-4 px-3 py-3 rounded-full border transition-all duration-300",
+            "pointer-events-auto flex items-center gap-[10rem] px-3 py-3 rounded-full border transition-all duration-300",
             "bg-black/40 backdrop-blur-[30px] border-white/5", // Mas transparent at malinaw na glass effect
             scrolled ? "border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : ""
           )}
@@ -106,6 +107,11 @@ const Navbar = () => {
                 {activeSection === link.id && (
                   <motion.span 
                     layoutId="active-pill" 
+                    transition={{
+                      type: "tween",      // Pinaka-importante: 'tween' para sa linear/smooth move
+                      ease: "easeOut",    // 'easeOut' para swabe ang paghinto, walang bounce
+                      duration: 0.3       // Bilis ng slide (0.3s is the sweet spot)
+                    }}
                     className="absolute inset-0 bg-violet-600/40 rounded-full border border-violet-500 shadow-[0_0_15px_rgba(139,92,246,0.6)]" 
                   />
                 )}
@@ -117,9 +123,30 @@ const Navbar = () => {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="relative flex items-center gap-2 px-6 py-3 ml-2 bg-violet-600 rounded-full hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(139,92,246,0.7)] hover:shadow-[0_0_20px_rgba(139,92,246,1)]" // Default at Hover Glow
+            // Eto yung Alert Animation logic
+            animate={activeSection === "contact" ? {
+              scale: [1, 1.1, 1], // Pulse effect
+              rotate: [0, -2, 2, -2, 0], // Subtle shake
+              boxShadow: [
+                "0 0 20px rgba(139,92,246,0.7)",
+                "0 0 40px rgba(139,92,246,1)", // Lalakas yung glow
+                "0 0 20px rgba(139,92,246,0.7)"
+              ]
+            } : {}}
+            transition={activeSection === "contact" ? {
+              duration: 0.5,
+              repeat: Infinity,
+              repeatDelay: 2 // Titigil siya ng 2 seconds bago mag-alert ulit
+            } : {}}
+            className="relative flex items-center gap-2 px-6 py-3 ml-2 bg-violet-600 rounded-full hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(139,92,246,0.7)]"
           >
-            <Handshake size={16} />HIRE ME
+            <Handshake size={16} />
+            HIRE ME
+            
+            {/* Ping Effect (Optional: Isang ring na lumalabas mula sa button) */}
+            {activeSection === "contact" && (
+              <span className="absolute inset-0 rounded-full bg-violet-400 animate-ping opacity-20 pointer-events-none" />
+            )}
           </motion.button>
         </motion.nav>
       </header>
@@ -128,7 +155,21 @@ const Navbar = () => {
       <div className="fixed top-6 right-6 z-[120] md:hidden">
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="p-3 bg-violet-600/80 backdrop-blur-md rounded-full border border-white/20 text-white shadow-lg"
+          className="
+            p-3 
+            bg-violet-600/80 
+            backdrop-blur-md 
+            rounded-full 
+            border border-white/20 
+            text-white 
+            shadow-lg 
+            /* HOVER EFFECTS START HERE */
+            transition-all duration-300
+            hover:bg-violet-500/90 
+            hover:scale-110 
+            hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] 
+            active:scale-95
+          "
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

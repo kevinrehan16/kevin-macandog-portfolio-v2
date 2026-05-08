@@ -9,6 +9,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        // Animation para sa pag-flash ng kulay ng mismong Logo image
+        logoFlash: {
+          '0%, 80%, 100%': { filter: 'grayscale(1)', opacity: '0.8' },
+          '85%': { filter: 'grayscale(0)', opacity: '1' }, // "totoong kulay" moment
+        },
+        // Animation para sa glow sa likod ng Logo
+        logoGlow: {
+          '0%, 80%, 100%': { opacity: '0' },
+          '85%': { opacity: '1', transform: 'scale(1.1)' }, // Subtle pulse
+        },
+      },
       colors: {
         background: "#020617", // Deep Space Blue
         primary: {

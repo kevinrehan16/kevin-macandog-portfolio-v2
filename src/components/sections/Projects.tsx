@@ -23,7 +23,7 @@ const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-6 bg-[#030014]/95 backdrop-blur-md"
+      className="fixed inset-0 z-[130] flex items-center justify-center p-2 md:p-6 bg-[#030014]/95 backdrop-blur-md"
       onClick={onClose}
     >
       <motion.div
@@ -42,7 +42,7 @@ const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void 
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
             </div>
             <span className="ml-4 text-[10px] font-mono text-slate-500 uppercase tracking-widest hidden md:inline">
-              Project_Vault / {project.title.replace(/\s+/g, '_').toLowerCase()}.v2
+              Project_Vault / {project.title.replace(/\s+/g, '_').toLowerCase()}.System
             </span>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-white transition-colors">
@@ -227,7 +227,7 @@ const Projects = () => {
     { 
       id: 1, 
       title: "Human Resource", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/hris4.jpg", 
       images: [
         "/img-projects/hris1.jpg",
@@ -242,7 +242,7 @@ const Projects = () => {
     { 
       id: 2, 
       title: "Mall Management", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/mall1.jpg", 
       images: [
         "/img-projects/mall1.jpg",
@@ -256,7 +256,7 @@ const Projects = () => {
     { 
       id: 3, 
       title: "Dealer Management", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/dms4.jpg", 
       images: [
         "/img-projects/dms1.jpg",
@@ -270,7 +270,7 @@ const Projects = () => {
     { 
       id: 4, 
       title: "Employee Management", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/portal1.jpg", 
       images: [
         "/img-projects/portal1.jpg",
@@ -296,7 +296,7 @@ const Projects = () => {
     { 
       id: 6, 
       title: "Disciple Network", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/disciple2.jpg", 
       images: [
         "/img-projects/disciple1.jpg",
@@ -310,7 +310,7 @@ const Projects = () => {
     { 
       id: 7, 
       title: "FPMI Marina", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/marina8.jpg", 
       images: [
         "/img-projects/marina1.jpg",
@@ -327,7 +327,7 @@ const Projects = () => {
     { 
       id: 8, 
       title: "City Portal", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/cityportal1.jpg", 
       images: [
         "/img-projects/cityportal1.jpg",
@@ -344,7 +344,7 @@ const Projects = () => {
     { 
       id: 9, 
       title: "A.I Course Generator", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/coursegenerator7.jpg", 
       images: [
         "/img-projects/coursegenerator1.jpg",
@@ -361,7 +361,7 @@ const Projects = () => {
     { 
       id: 10, 
       title: "Neflix Clone", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/netflix1.jpg", 
       images: [
         "/img-projects/netflix1.jpg",
@@ -373,7 +373,7 @@ const Projects = () => {
     { 
       id: 11, 
       title: "Online Store", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "/img-projects/store1.png", 
       images: [
         "/img-projects/store1.png",
@@ -399,7 +399,7 @@ const Projects = () => {
     { 
       id: 13, 
       title: "Visitors Management", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
@@ -409,7 +409,7 @@ const Projects = () => {
     { 
       id: 14, 
       title: "Contact Tracing", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
@@ -439,7 +439,7 @@ const Projects = () => {
     { 
       id: 17, 
       title: "Hotel APIs", 
-      category: "Full Stack", 
+      category: "Fullstack", 
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
@@ -541,18 +541,26 @@ const Projects = () => {
           </motion.div>
 
           {/* TABS */}
-          <div className="flex p-1 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl">
-            {["All", "Full Stack", "Frontend", "Backend"].map((cat) => (
-              <button 
-                key={cat} 
-                onClick={() => { setFilter(cat); setShowAll(false); }} 
-                className={`px-6 py-2.5 rounded-xl text-[10px] font-bold font-mono tracking-widest uppercase transition-all ${
-                  filter === cat 
-                    ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/40' 
-                    : 'text-slate-500 hover:text-white'
+          <div className="flex p-1 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full relative">
+            {["All", "Fullstack", "Frontend", "Backend"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => { setFilter(cat); setShowAll(false); }}
+                className={`relative px-6 py-3 rounded-full text-[10px] font-bold font-mono tracking-widest uppercase transition-colors duration-300 z-10 ${
+                  filter === cat ? 'text-white' : 'text-slate-500 hover:text-white'
                 }`}
               >
-                {cat}
+                {/* 1. Eto yung text label */}
+                <span className="relative z-20">{cat}</span>
+
+                {/* 2. Eto yung moving background pill */}
+                {filter === cat && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-violet-600 rounded-full shadow-lg shadow-violet-600/40 z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
               </button>
             ))}
           </div>

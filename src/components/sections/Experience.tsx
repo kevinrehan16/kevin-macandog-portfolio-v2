@@ -44,7 +44,7 @@ const Experience = () => {
   });
 
   return (
-    <section id="experience" className="relative py-20 md:py-32 bg-transparent overflow-hidden">
+    <section id="careers" className="relative py-20 md:py-32 bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         
         {/* --- HEADER --- */}

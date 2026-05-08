@@ -146,12 +146,11 @@ const FloatingTech = () => {
             className="relative inset-0 z-20 flex items-center justify-center transition-all duration-300 ease-out group-hover:opacity-5 group-hover:blur-[2px] w-[320px] md:w-[550px] h-[320px] md:h-[550px]"
           >
             <Image
-              src="/img/white.png"
+              src="/img/hero.webp"
               alt="Kevin Macandog"
               width={500}
               height={700}
               priority
-              unoptimized
               className="
                 w-[300px] md:w-[480px] h-auto object-contain
                 transition-all duration-300 group-hover:grayscale

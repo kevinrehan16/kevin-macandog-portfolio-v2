@@ -16,12 +16,12 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-16 md:py-24 px-6 bg-[#030014] relative overflow-hidden">
+    <section id="about" className="py-20 md:py-32 relative overflow-hidden bg-[#030014]">
       {/* Dynamic Background Glows */}
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-violet-600/10 blur-[100px] rounded-full" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-fuchsia-600/10 blur-[100px] rounded-full" />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ const About = () => {
             
             <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-white/10 bg-[#030014] shadow-2xl">
               <Image 
-                src="/img/light.png" 
+                src="/img/about.webp" 
                 alt="Kevin Macandog" 
                 fill 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
