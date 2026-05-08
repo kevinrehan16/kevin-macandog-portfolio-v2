@@ -230,11 +230,14 @@ const Projects = () => {
       category: "Full Stack", 
       image: "/img-projects/hris4.jpg", 
       images: [
+        "/img-projects/hris1.jpg",
+        "/img-projects/hris2.jpg",
+        "/img-projects/hris3.jpg",
         "/img-projects/hris4.jpg",
-        "https://images.unsplash.com/photo-1551288049-bbbda5366a7a?q=80&w=2070&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop"
+        "/img-projects/hris5.jpg",
+        "/img-projects/hris6.jpg",
       ],
-      tech: ["React.js", "Node.js", "MySql"] 
+      tech: ["React.js", "Node.js", "MySql", "Prisma", "Express.js", "HTML5", "Tailwind", "JavaScript", "Typescript"]
     },
     { 
       id: 2, 
@@ -243,10 +246,12 @@ const Projects = () => {
       image: "/img-projects/mall1.jpg", 
       images: [
         "/img-projects/mall1.jpg",
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1964&auto=format&fit=crop"
+        "/img-projects/mall2.jpg",
+        "/img-projects/mall3.jpg",
+        "/img-projects/mall4.jpg",
+        
       ],
-      tech: ["HTML5/CSS3", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 3, 
@@ -254,11 +259,13 @@ const Projects = () => {
       category: "Full Stack", 
       image: "/img-projects/dms4.jpg", 
       images: [
+        "/img-projects/dms1.jpg",
+        "/img-projects/dms2.jpg",
+        "/img-projects/dms3.jpg",
         "/img-projects/dms4.jpg",
-        "https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?q=80&w=2050&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/dms5.jpg",
       ],
-      tech: ["HTML5/CSS3", "PHP", "MySQL"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 4, 
@@ -267,9 +274,11 @@ const Projects = () => {
       image: "/img-projects/portal1.jpg", 
       images: [
         "/img-projects/portal1.jpg",
-        "https://images.unsplash.com/photo-1454165833762-0204b2816718?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/portal2.jpg",
+        "/img-projects/portal3.jpg",
+        
       ],
-      tech: ["React.js", "Node.js", "MySQL"] 
+      tech: ["React.js", "Node.js", "MySql", "Prisma", "Express.js", "HTML5", "Tailwind", "JavaScript", "Typescript"]
     },
     { 
       id: 5, 
@@ -278,9 +287,11 @@ const Projects = () => {
       image: "/img-projects/mobius1.jpg", 
       images: [
         "/img-projects/mobius1.jpg",
-        "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/mobius2.jpg",
+        "/img-projects/mobius3.jpg",
+        "/img-projects/mobius4.jpg",
       ],
-      tech: ["Wix", "HTML5", "CSS3"] 
+      tech: ["Wix", "HTML5", "CSS3"]
     },
     { 
       id: 6, 
@@ -288,10 +299,13 @@ const Projects = () => {
       category: "Full Stack", 
       image: "/img-projects/disciple2.jpg", 
       images: [
+        "/img-projects/disciple1.jpg",
         "/img-projects/disciple2.jpg",
-        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/disciple3.jpg",
+        "/img-projects/disciple4.jpg",
+        "/img-projects/disciple5.jpg",
       ],
-      tech: ["Vue.js", "Laravel", "Firebase"] 
+      tech: ["Vue.js", "Laravel", "Firebase", "HTML5", "CSS3", "JavaScript", "Typescript"]
     },
     { 
       id: 7, 
@@ -299,10 +313,16 @@ const Projects = () => {
       category: "Full Stack", 
       image: "/img-projects/marina8.jpg", 
       images: [
-        "/img-projects/marina8.jpg",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop"
+        "/img-projects/marina1.jpg",
+        "/img-projects/marina2.jpg",
+        "/img-projects/marina3.jpg",
+        "/img-projects/marina4.jpg",
+        "/img-projects/marina5.jpg",
+        "/img-projects/marina6.jpg",
+        "/img-projects/marina7.jpg",
+        "/img-projects/marina8.jpg", 
       ],
-      tech: ["Wix", "HTML5", "CSS3"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 8, 
@@ -311,9 +331,15 @@ const Projects = () => {
       image: "/img-projects/cityportal1.jpg", 
       images: [
         "/img-projects/cityportal1.jpg",
-        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/cityportal2.jpg",
+        "/img-projects/cityportal3.jpg",
+        "/img-projects/cityportal4.jpg",
+        "/img-projects/cityportal5.jpg",
+        "/img-projects/cityportal6.jpg",
+        "/img-projects/cityportal7.jpg",
+        "/img-projects/cityportal8.jpg",
       ],
-      tech: ["HTML", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 9, 
@@ -321,10 +347,16 @@ const Projects = () => {
       category: "Full Stack", 
       image: "/img-projects/coursegenerator7.jpg", 
       images: [
+        "/img-projects/coursegenerator1.jpg",
+        "/img-projects/coursegenerator2.jpg",
+        "/img-projects/coursegenerator3.jpg",
+        "/img-projects/coursegenerator4.jpg",
+        "/img-projects/coursegenerator5.jpg",
+        "/img-projects/coursegenerator6.jpg",
         "/img-projects/coursegenerator7.jpg",
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/coursegenerator8.jpg",
       ],
-      tech: ["Wix", "HTML5", "CSS3"] 
+      tech: ["Next.js", "React.js", "Bootstrap", "Gemini API", "HTML5", "JavaScript", "MongoDB", "Mongoose", "Prisma"] 
     },
     { 
       id: 10, 
@@ -333,9 +365,10 @@ const Projects = () => {
       image: "/img-projects/netflix1.jpg", 
       images: [
         "/img-projects/netflix1.jpg",
-        "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=2069&auto=format&fit=crop"
+        "/img-projects/netflix2.jpg",
+        "/img-projects/netflix3.jpg",
       ],
-      tech: ["HTML5", "React", "MongoDB"] 
+      tech: ["React.js", "HTML5", "Bootstrap", "The Movie DB API", "JavaScript"] 
     },
     { 
       id: 11, 
@@ -344,9 +377,12 @@ const Projects = () => {
       image: "/img-projects/store1.png", 
       images: [
         "/img-projects/store1.png",
-        "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2070&auto=format&fit=crop"
+        "/img-projects/store2.png",
+        "/img-projects/store3.png",
+        "/img-projects/store4.png"
+
       ],
-      tech: ["HTML", "Laravel", "MySql"] 
+      tech: ["HTML", "Laravel", "MySql", "React.js"] 
     },
     { 
       id: 12, 
@@ -355,7 +391,8 @@ const Projects = () => {
       image: "/img-projects/ford1.jpg", 
       images: [
         "/img-projects/ford1.jpg",
-        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1966&auto=format&fit=crop"
+        "/img-projects/ford2.jpg",
+        "/img-projects/ford3.jpg"
       ],
       tech: ["HTML5", "CSS3", "JavaScript"] 
     },
@@ -366,9 +403,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["HTML", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 14, 
@@ -377,9 +413,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["HTML", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 15, 
@@ -388,9 +423,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=2026&auto=format&fit=crop"
       ],
-      tech: ["HTML", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 16, 
@@ -399,9 +433,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["HTML", "CSS", "JavaScript"] 
+      tech: ["HTML", "CSS", "JavaScript"]
     },
     { 
       id: 17, 
@@ -410,9 +443,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["HTML", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 18, 
@@ -421,9 +453,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["JavaScript", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 19, 
@@ -432,9 +463,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["JavaScript", "PHP", "MySql"] 
+      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
     },
     { 
       id: 20, 
@@ -443,9 +473,8 @@ const Projects = () => {
       image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
       images: [
         "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
-        "https://images.unsplash.com/photo-1593359677759-543734829316?q=80&w=2070&auto=format&fit=crop"
       ],
-      tech: ["JavaScript", "PHP", "MySql"] 
+      tech: ["Vue.js", "Laravel", "MySql", "CSS3", "HTML5", "Bootstrap"]
     },
     { 
       id: 21, 
@@ -454,9 +483,14 @@ const Projects = () => {
       image: "/img-projects/portfolio1.jpg", 
       images: [
         "/img-projects/portfolio1.jpg",
-        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1955&auto=format&fit=crop"
+        "/img-projects/portfolio2.jpg",
+        "/img-projects/portfolio3.jpg",
+        "/img-projects/portfolio4.jpg",
+        "/img-projects/portfolio5.jpg",
+        "/img-projects/portfolio6.jpg",
+        "/img-projects/portfolio7.jpg",
       ],
-      tech: ["HTML", "JavaScript", "CSS"] 
+      tech: ["HTML", "JavaScript", "CSS", "SCSS"]
     },
   ];
 
