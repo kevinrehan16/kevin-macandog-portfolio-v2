@@ -9,7 +9,7 @@ import CustomCursor from "@/components/shared/CustomCursor";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Kevin Macandog | Full Stack Developer Portfolio",
+  title: "Kevin Macandog | Full Stack Developer",
   description: "Full Stack Software Developer specializing in React.js, Vue.js, Node.js, PHP and Laravel. Building efficient, scalable, and user-friendly applications with clean, maintainable code.",
   keywords: [
     "Full Stack Developer", "Software Engineer", "Software Developer", 
@@ -18,11 +18,11 @@ export const metadata = {
     "Kevin Godnacam", "Macandog Portfolio", "Macandog Software Developer"
   ],
   alternates: {
-    canonical: "https://kevinmacandog.com", // Palitan mo ng actual domain mo
+    canonical: "https://kevin-macandog.vercel.app", // Palitan mo ng actual domain mo
   },
   openGraph: {
     title: "Kevin Macandog | Portfolio",
-    description: "Professional Full Stack Software Developer Portfolio",
+    description: "Building the future of the web, one line of code at a time.",
     icons: {
       icon: [
         {
@@ -71,7 +71,6 @@ export default function RootLayout({
       )} suppressHydrationWarning>
         <CustomCursor />
         <Navbar />
-        <StarsCanvas />
         {children}
       </body>
     </html>

@@ -8,16 +8,27 @@ import { SiTailwindcss, SiVuedotjs, SiJavascript, SiLaravel, SiNextdotjs, SiType
 const FloatingTech = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(false);
+  // FIX: Track screen width for responsive radius calculation
+  const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleResize = () => setWindowWidth(window.innerWidth);
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 8;
       const y = (e.clientY / window.innerHeight - 0.5) * 8;
       setMousePosition({ x, y });
     };
+    
+    window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
     const timer = setTimeout(() => setIsAnimating(true), 500);
-    return () => { window.removeEventListener("mousemove", handleMouseMove); clearTimeout(timer); };
+    
+    return () => { 
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove); 
+      clearTimeout(timer); 
+    };
   }, []);
 
   const icons = [
@@ -74,11 +85,11 @@ const FloatingTech = () => {
       <motion.div
         animate={{ x: mousePosition.x, y: mousePosition.y }}
         transition={{ type: "spring", stiffness: 35, damping: 25 }}
-        className="relative z-20 flex items-center justify-center w-[320px] md:w-[550px] h-[320px] md:h-[550px]"
+        // Responsive unit size
+        className="relative z-20 flex items-center justify-center w-[280px] md:w-[550px] h-[280px] md:h-[550px]"
       >
         <div className="relative flex items-center justify-center w-full h-full group">
           
-          {/* LAYER 1: OUTER BACKGROUND GLOW */}
           <div 
             className="absolute inset-0 scale-[1.18] -z-30 opacity-20"
             style={{ 
@@ -88,20 +99,17 @@ const FloatingTech = () => {
             }}
           />
 
-          {/* LAYER 2: MIDDLE BORDER - THE HOVER TRIGGER */}
           <div 
             className="absolute inset-0 scale-[1.05] -z-20 border border-violet-500/20 pointer-events-auto transition-all duration-300 group-hover:border-violet-500/50"
             style={{ clipPath: tetradecagonPath }}
           />
 
-          {/* LAYER 3: INNER GLASS FRAME */}
           <div 
             className="absolute inset-0 bg-white/[0.03] backdrop-blur-[6px] border border-white/10 -z-10" 
             style={{ clipPath: tetradecagonPath }}
           />
 
-          {/* STATS RADAR - BINABAAN KO ANG Z-INDEX (z-10) PARA NASA LIKOD NG PIC */}
-          <div className="absolute inset-0 z-10 flex items-center justify-center p-6 pointer-events-none">
+          <div className="absolute inset-0 z-10 flex items-center justify-center p-4 md:p-6 pointer-events-none">
             <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible transition-all duration-500 opacity-40 group-hover:opacity-100 group-hover:scale-110">
               <defs>
                 <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -110,21 +118,17 @@ const FloatingTech = () => {
                 </linearGradient>
               </defs>
               
-              {/* Grid Lines */}
               {[0.2, 0.4, 0.6, 0.8, 1].map((s, i) => (
                 <polygon 
                   key={i} 
                   points={getGridPoints(50)} 
-                  /* Kapag i === 0 (0.2 scale), gawin nating solid violet/dark */
                   fill={i === 0 ? "rgba(139, 92, 246, 0.3)" : "none"} 
-                  /* Gawin nating mas visible ang stroke ng pinakamaliit */
                   stroke={i === 0 ? "rgba(167, 139, 250, 0.6)" : "rgba(167, 139, 250, 0.2)"} 
                   strokeWidth="0.4" 
                   transform={`scale(${s}) translate(${(50/s)-50} ${(50/s)-50})`} 
                 />
               ))}
 
-              {/* The Actual Stats Polygon */}
               <motion.polygon 
                 points={getStatsPoints} 
                 fill="url(#purpleGrad)" 
@@ -136,22 +140,21 @@ const FloatingTech = () => {
             </svg>
           </div>
 
-          {/* PORTRAIT - TINAASAN KO ANG Z-INDEX (z-20) PARA NASA HARAP NG STATS */}
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             className="absolute inset-0 z-20 flex items-center justify-center transition-all duration-300 ease-out 
-                      group-hover:opacity-5 group-hover:blur-[2px]"
+                       group-hover:opacity-5 group-hover:blur-[2px]"
           >
             <Image
               src="/img/white.png"
-              alt="Me"
+              alt="Kevin Macandog"
               width={500}
               height={700}
               priority
               unoptimized
               className="
-                w-[280px] md:w-[480px] h-auto object-contain
+                w-[240px] md:w-[480px] h-auto object-contain
                 transition-all duration-300 group-hover:grayscale
                 drop-shadow-[0_0_20px_rgba(180,126,222,0.35)]
               "
@@ -162,9 +165,11 @@ const FloatingTech = () => {
 
       {/* 2. ORBITING ICONS */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
-        <div className="relative w-[340px] md:w-[680px] h-[340px] md:h-[680px]">
+        {/* Container adjusts size based on screen */}
+        <div className="relative w-[300px] md:w-[680px] h-[300px] md:h-[680px]">
           {icons.map((tech, i) => {
-            const radius = typeof window !== 'undefined' && window.innerWidth < 768 ? 180 : 340;
+            // FIX: Dynamic radius calculation to prevent overflow on mobile (390px width)
+            const radius = windowWidth < 768 ? 160 : 340;
             const angle = (i * 360) / sides;
             const radian = (angle - 90) * (Math.PI / 180);
             const tx = Math.cos(radian) * radius;
@@ -183,7 +188,6 @@ const FloatingTech = () => {
                 }}
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto"
               >
-                {/* FLOATING ANIMATION */}
                 <motion.div 
                   animate={{ y: [0, -15, 0] }}
                   transition={{
@@ -192,23 +196,22 @@ const FloatingTech = () => {
                     ease: "easeInOut",
                     delay: i * 0.2
                   }}
-                  /* DITO ANG MAGIC NG GLOW */
                   whileHover={{ 
                     scale: 1.3, 
-                    color: "#c084fc", // Mas maliwanag na violet
+                    color: "#c084fc",
                     filter: [
                       "drop-shadow(0 0 8px rgba(167, 139, 250, 0.4))",
-                      "drop-shadow(0 0 20px rgba(139, 92, 246, 0.8))", // Outer glow
-                      "drop-shadow(0 0 35px rgba(139, 92, 246, 0.4))"  // Wide bloom
+                      "drop-shadow(0 0 20px rgba(139, 92, 246, 0.8))",
+                      "drop-shadow(0 0 35px rgba(139, 92, 246, 0.4))"
                     ],
                   }}
                   className="cursor-pointer relative group"
                 >
-                  {/* Background Glow Layer (lalabas lang pag hover) */}
                   <div className="absolute inset-0 bg-violet-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   <tech.Icon 
-                    size={typeof window !== 'undefined' && window.innerWidth < 768 ? 32 : 46} 
+                    // Smaller icons on mobile
+                    size={windowWidth < 768 ? 24 : 46} 
                     className="text-violet-400/40 transition-all duration-300 group-hover:text-violet-300" 
                   />
                 </motion.div>

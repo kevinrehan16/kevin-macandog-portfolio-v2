@@ -2,39 +2,32 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Rocket, Cpu, Briefcase, User, Mail, Monitor } from "lucide-react";
+import { Cpu, Briefcase, User, Mail, Monitor, Menu, X, Handshake } from "lucide-react";
 
 const navLinks = [
-  { name: "Home", href: "/", id: "home", icon: <Cpu size={18} /> }, // "/" para sa clean URL
-  { name: "About", href: "#about", id: "about", icon: <User size={18} /> },
-  { name: "Projects", href: "#projects", id: "projects", icon: <Briefcase size={18} /> },
-  { name: "Services", href: "#services", id: "services", icon: <Monitor size={18} /> },
-  { name: "Contact", href: "#contact", id: "contact", icon: <Mail size={18} /> },
+  { name: "Home", href: "/", id: "home", icon: <Cpu size={22} /> },
+  { name: "About", href: "#about", id: "about", icon: <User size={22} /> },
+  { name: "Projects", href: "#projects", id: "projects", icon: <Briefcase size={22} /> },
+  { name: "Services", href: "#services", id: "services", icon: <Monitor size={22} /> },
+  { name: "Contact", href: "#contact", id: "contact", icon: <Mail size={22} /> },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    let isScrollingManual = false; // Flag para malaman kung galing sa click ang scroll
-
     const handleScroll = () => {
-      // Background glow logic
       setScrolled(window.scrollY > 20);
-
-      // Active Section Intersection
-      const scrollPosition = window.scrollY + 150; // Offset
-
-      // Default to home
+      const scrollPosition = window.scrollY + 150;
       if (window.scrollY < 100) {
         setActiveSection("home");
         return;
       }
-
       navLinks.forEach((link) => {
         const section = document.getElementById(link.id);
         if (section) {
@@ -46,106 +39,161 @@ const Navbar = () => {
         }
       });
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-[100] flex justify-center p-6 pointer-events-none">
-      <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className={cn(
-          "pointer-events-auto flex items-center gap-2 px-3 py-2 rounded-full border transition-all duration-300",
-          "bg-background/40 backdrop-blur-xl border-white/10",
-          scrolled ? "shadow-[0_0_20px_rgba(139,92,246,0.3)] border-violet-500/50" : "shadow-none"
-        )}
-      >
-        {/* Logo */}
-        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-white to-white border-2 border-violet-500/50">
-          <Image
-            src="/img/logo.png"
-            alt="Me"
-            width={25}
-            height={25}
-            priority
-            unoptimized
-            className="
-              relative
-              z-30
-              w-[35px] md:w-[350px]
-              h-auto
-              object-contain
-              brightness-[1.1] 
-              contrast-[1.1]
-              saturate-[1.15]
-              drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]
-            "
-          />
-        </div>
+  const handleLinkClick = (e: React.MouseEvent, link: any) => {
+    setIsOpen(false); 
+    if (link.href.startsWith("#")) {
+      e.preventDefault();
+      const targetId = link.href.replace("#", "");
+      const elem = document.getElementById(targetId);
+      elem?.scrollIntoView({ behavior: "smooth" });
+      window.history.replaceState(null, "", link.href);
+      setActiveSection(link.id);
+    } else {
+      setActiveSection("home");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.pushState(null, "", "/");
+    }
+  };
 
-        {/* Links */}
-        <div className="flex items-center gap-1 px-2">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.id;
-            
-            return (
+  const Logo = () => (
+    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white border-2 border-violet-500/50 shrink-0 shadow-[0_0_12px_rgba(139,92,246,0.5)]">
+      <Image
+        src="/img/logo.png"
+        alt="Kevin Logo"
+        width={25}
+        height={25}
+        priority
+        unoptimized
+        className="w-[35px] h-auto object-contain brightness-[1.1] contrast-[1.1] saturate-[1.15] drop-shadow-[0_0_5px_rgba(139,92,246,0.3)]"
+      />
+    </div>
+  );
+
+  return (
+    <>
+      {/* --- DESKTOP NAVBAR --- */}
+      <header className="fixed -top-3 left-0 right-0 z-[100] hidden md:flex justify-center p-6 pointer-events-none">
+        <motion.nav
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className={cn(
+            "pointer-events-auto flex items-center gap-4 px-3 py-3 rounded-full border transition-all duration-300",
+            "bg-black/40 backdrop-blur-[30px] border-white/5", // Mas transparent at malinaw na glass effect
+            scrolled ? "border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : ""
+          )}
+        >
+          <Logo />
+          
+          <div className="flex items-center gap-1 px-2">
+            {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={(e) => {
-                  // 2. Custom Scroll Logic para iwas stacking ng hash
-                  if (link.href.startsWith("#")) {
-                    e.preventDefault();
-                    const targetId = link.href.replace("#", "");
-                    const elem = document.getElementById(targetId);
-                    elem?.scrollIntoView({ behavior: "smooth" });
-                    
-                    // Update URL nang hindi nagpapatong (replaceState)
-                    window.history.replaceState(null, "", link.href);
-                    setActiveSection(link.id);
-                  } else {
-                    // Kung Home (/), i-reset ang scroll sa taas at linisin ang URL
-                    setActiveSection("home");
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    window.history.pushState(null, "", "/");
-                  }
-                }}
+                onClick={(e) => handleLinkClick(e, link)}
                 className={cn(
-                  "relative px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-full outline-none",
-                  isActive ? "text-white" : "text-slate-400 hover:text-violet-300"
+                  "relative px-4 py-2 text-xs font-medium tracking-widest uppercase rounded-full transition-all duration-300",
+                  // Inactive: slate-400/muted | Active or Hover: text-white
+                  activeSection === link.id ? "text-white" : "text-slate-500 hover:text-purple-300"
                 )}
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  <span className="hidden md:inline">{link.icon}</span>
-                  {link.name}
+                  {link.icon} {link.name}
                 </span>
-
-                {/* Active Indicator (Yung gumagalaw na background) */}
-                {isActive && (
-                  <motion.span
-                    layoutId="active-pill"
-                    className="absolute inset-0 bg-violet-600/20 border border-violet-500/30 rounded-full shadow-[0_0_15px_rgba(139,92,246,0.2)]"
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 400, // Medyo mas mabilis na spring
-                      damping: 35,    // Para hindi masyadong bouncy
-                      mass: 0.8       // Para mas "lightweight" ang pakiramdam ng paggalaw
-                    }}
+                {activeSection === link.id && (
+                  <motion.span 
+                    layoutId="active-pill" 
+                    className="absolute inset-0 bg-violet-600/40 rounded-full border border-violet-500 shadow-[0_0_15px_rgba(139,92,246,0.6)]" 
                   />
                 )}
               </Link>
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
-        {/* CTA Button */}
-        <button className="hidden sm:block ml-2 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white bg-violet-600 rounded-full hover:bg-violet-500 hover:scale-105 transition-all active:scale-95 shadow-[0_10px_20px_rgba(139,92,246,0.3)]">
-          Hire Me
+          {/* HIRE ME BUTTON (Laging naka-Neon Glow) */}
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative flex items-center gap-2 px-6 py-3 ml-2 bg-violet-600 rounded-full hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(139,92,246,0.7)] hover:shadow-[0_0_20px_rgba(139,92,246,1)]" // Default at Hover Glow
+          >
+            <Handshake size={16} />HIRE ME
+          </motion.button>
+        </motion.nav>
+      </header>
+
+      {/* --- MOBILE TRIGGER --- */}
+      <div className="fixed top-6 right-6 z-[120] md:hidden">
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-3 bg-violet-600/80 backdrop-blur-md rounded-full border border-white/20 text-white shadow-lg"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </motion.nav>
-    </header>
+      </div>
+
+      {/* --- MOBILE GLASS DRAWER --- */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-[110] bg-black/40 backdrop-blur-sm md:hidden"
+            />
+            
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-screen w-[75%] z-[115] bg-white/5 backdrop-blur-[40px] border-l border-white/10 p-8 flex flex-col md:hidden shadow-[-10px_0_30px_rgba(0,0,0,0.5)]"
+            >
+              <div className="flex items-center gap-4 mb-12">
+                <Logo />
+                <span className="font-black text-white tracking-[0.1em] text-lg uppercase">KevinM.</span>
+              </div>
+
+              <div className="flex flex-col gap-4 mb-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleLinkClick(e, link)}
+                    className={cn(
+                      "flex items-center gap-5 p-4 rounded-2xl transition-all duration-300 border",
+                      activeSection === link.id 
+                        ? "bg-violet-600/20 text-white border-violet-500/50 translate-x-2" 
+                        : "text-slate-300 border-transparent hover:bg-white/5"
+                    )}
+                  >
+                    <span className={cn(
+                      "p-2 rounded-lg bg-white/5 transition-colors",
+                      activeSection === link.id && "bg-violet-600 text-white"
+                    )}>
+                      {link.icon}
+                    </span>
+                    <span className="font-bold tracking-widest text-sm uppercase">{link.name}</span>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-auto pb-10">
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative flex items-center justify-center gap-2 px-6 py-4 ml-2 bg-violet-600 rounded-2xl hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all w-full shadow-[0_0_20px_rgba(139,92,246,0.7)] hover:shadow-[0_0_20px_rgba(139,92,246,1)]" // Default at Hover Glow
+                >
+                  <Handshake size={16} />HIRE ME
+                </motion.button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

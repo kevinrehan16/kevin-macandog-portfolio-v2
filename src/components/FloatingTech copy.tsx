@@ -182,7 +182,7 @@ const FloatingTech = () => {
           <div className="relative w-full h-full rounded-full overflow-hidden bg-[#030014]">
             <Image
               src="/img/hero.png"
-              alt="Kevin"
+              alt="Kevin Macandog"
               fill
               priority
               sizes="(max-width: 768px) 100vw,
