@@ -46,20 +46,25 @@ const techStack = [
 ];
 
 const TechMarquee = () => {
-  // Dinoble ang array para sa infinite effect
   const duplicatedStack = [...techStack, ...techStack];
 
   return (
-    <div className="relative py-20 bg-[#030014] overflow-hidden group">
-      {/* Gradient Fades - Nilagyan ng z-20 para laging nasa ibabaw ng icons */}
-      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#030014] to-transparent z-20 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#030014] to-transparent z-20 pointer-events-none" />
+    // UPDATED BACKGROUND: Darker base with a subtle top-to-bottom gradient
+    <div className="relative py-12 md:py-20 bg-gradient-to-b from-[#030014] via-[#05011a] to-[#030014] overflow-hidden group border-y border-white/5">
+      
+      {/* Background Decor - Subtle violet pulse in the center for separation */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.03)_0%,transparent_70%)] pointer-events-none" />
+
+      {/* Gradient Fades - Responsive width */}
+      <div className="absolute inset-y-0 left-0 w-20 md:w-48 bg-gradient-to-r from-[#030014] to-transparent z-20 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-20 md:w-48 bg-gradient-to-l from-[#030014] to-transparent z-20 pointer-events-none" />
 
       <motion.div
-        className="flex whitespace-nowrap gap-16 w-max" 
-        animate={{ x: ["0%", "-50%"] }} // Susi sa seamless loop: 0% patungong -50%
+        // Responsive gap: gap-8 on mobile, gap-16 on desktop
+        className="flex whitespace-nowrap gap-8 md:gap-16 w-max" 
+        animate={{ x: ["0%", "-50%"] }}
         transition={{
-          duration: 35, // Bagalan natin ang speed para hindi nakakahilo
+          duration: 35,
           repeat: Infinity,
           ease: "linear",
         }}
@@ -67,22 +72,22 @@ const TechMarquee = () => {
         {duplicatedStack.map((tech, index) => (
           <div
             key={index}
-            className="flex items-center gap-6 group/icon cursor-default"
+            className="flex items-center gap-3 md:gap-6 group/icon cursor-default"
           >
             <div className="relative">
-              {/* Soft glow behind icon on hover */}
               <div 
                 className="absolute inset-0 blur-2xl opacity-0 group-hover/icon:opacity-100 transition-opacity duration-500 rounded-full"
                 style={{ backgroundColor: `${tech.color}40` }} 
               />
               
               <tech.icon 
-                size={45}
+                // Responsive Icon size: 32px on mobile, 45px on desktop
+                size={typeof window !== 'undefined' && window.innerWidth < 768 ? 32 : 45}
                 className="text-white/20 transition-all duration-500 group-hover/icon:text-white group-hover/icon:scale-110"
               />
             </div>
             
-            <span className="text-white/10 font-mono text-xl tracking-tighter transition-all duration-500 group-hover/icon:text-white">
+            <span className="text-white/10 font-mono text-lg md:text-xl tracking-tighter transition-all duration-500 group-hover/icon:text-white">
               {tech.name}
             </span>
           </div>
