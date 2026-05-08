@@ -84,7 +84,7 @@ const Hero = () => {
 
           <motion.h1 
             variants={itemVariants}
-            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none"
+            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none animate-pulse"
           >
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-violet-500 to-[#d946ef] drop-shadow-[0_0_30px_rgba(139,92,246,0.3)]">
               KEVIN
