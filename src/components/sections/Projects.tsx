@@ -57,6 +57,7 @@ const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void 
               <motion.img
                 key={imgIndex}
                 src={images[imgIndex]}
+                alt={`${project.category} Web ${project.title} System - Kevin Macandog`}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
@@ -180,7 +181,12 @@ const ProjectCard = ({ p, index, onOpen }: { p: any; index: number; onOpen: (p: 
         </div>
 
         <div className="relative ml-10 h-full rounded-[2rem] overflow-hidden bg-[#030014]">
-          <motion.img src={p.image} style={{ transform: "translateZ(-30px) scale(1.2)" }} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-20 transition-all duration-700" />
+          <motion.img 
+            src={p.image} 
+            alt={`Kevin Macandog - ${p.category} Web ${p.title} System`}
+            style={{ transform: "translateZ(-30px) scale(1.2)" }} 
+            className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-20 transition-all duration-700" 
+          />
           <div className="absolute inset-0 p-8 flex flex-col justify-between z-20">
             <div style={{ transform: "translateZ(50px)" }}>
               <div className="bg-violet-500/20 backdrop-blur-md border border-violet-500/30 px-4 py-1 rounded-lg w-fit">

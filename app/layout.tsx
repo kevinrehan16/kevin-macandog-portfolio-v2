@@ -23,27 +23,12 @@ export const metadata = {
   },
   openGraph: {
     title: "Kevin Macandog | Portfolio",
-    description: "Building the future of the web, one line of code at a time.",
-    icons: {
-      icon: [
-        {
-          url: '/img/logo.png',
-          href: '/img/logo.png',
-        },
-      ],
-      apple: [
-        {
-          url: '/img/logo.png',
-          sizes: '180x180',
-          type: 'image/png',
-        },
-      ],
-    },
+    description: "Full Stack Software Developer specializing in React.js, Node.js, and Laravel. Explore my portfolio to see how I build efficient, scalable, and user-friendly web applications with clean code.",
     url: "https://kevin-macandog.vercel.app",
     siteName: "Kevin Macandog Portfolio",
     images: [
       {
-        url: "/img/my-website.jpg", // Siguraduhin na .png o .jpg ang tama
+        url: "https://kevin-macandog.vercel.app/img/my-website.jpg", // Siguraduhin na .png o .jpg ang tama
         width: 1200,
         height: 630,
         alt: "Kevin Macandog - Full Stack Developer",
@@ -56,6 +41,12 @@ export const metadata = {
     index: true,
     follow: true,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kevin Macandog | Portfolio",
+    description: "Full Stack Software Developer specializing in React.js, Node.js, and Laravel. Explore my portfolio to see how I build efficient, scalable, and user-friendly web applications with clean code.",
+    images: ["https://kevin-macandog.vercel.app/img/my-website.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -66,6 +57,25 @@ export default function RootLayout({
   return (
     // Dagdagan ng suppressHydrationWarning dito:
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/img/logo.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/img/logo.png" />
+        
+        {/* JSON-LD Structured Data para sa SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Kevin Macandog",
+              "url": "https://kevin-macandog.vercel.app",
+              "jobTitle": "Full Stack Software Developer",
+              "knowsAbout": ["React.js", "Node.js", "Vue.js", "Laravel", "PHP", "MySQL"],
+            }),
+          }}
+        />
+      </head>
       <body className={cn(
         inter.className, 
         "bg-background text-slate-200 antialiased overflow-x-hidden"

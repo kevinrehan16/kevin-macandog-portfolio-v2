@@ -83,7 +83,7 @@ const Navbar = () => {
           animate={{ y: 0, opacity: 1 }}
           className={cn(
             "pointer-events-auto flex items-center gap-[10rem] px-3 py-3 rounded-full border transition-all duration-300",
-            "bg-black/40 backdrop-blur-[30px] border-white/5", // Mas transparent at malinaw na glass effect
+            "bg-black/25 backdrop-blur-[30px] border-white/10", // Mas transparent at malinaw na glass effect
             scrolled ? "border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : ""
           )}
         >
