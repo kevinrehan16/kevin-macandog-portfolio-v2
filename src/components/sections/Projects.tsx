@@ -1,18 +1,151 @@
 "use client";
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Plus, Terminal, ExternalLink } from "lucide-react";
+import { Plus, Terminal, ExternalLink, X, Cpu, ChevronLeft, ChevronRight } from "lucide-react";
 
-// --- PROJECT CARD COMPONENT (HYPER-TERMINAL V2) ---
-const ProjectCard = ({ p, index }: { p: any; index: number }) => {
-  if (!p) return null;
+// --- 1. PROJECT MODAL COMPONENT (WITH IMAGE CAROUSEL) ---
+const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void }) => {
+  const [imgIndex, setImgIndex] = useState(0);
+  const images = project.images || [project.image]; // Fallback kung isa lang ang image
 
+  const nextImg = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImgIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImg = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImgIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-6 bg-[#030014]/95 backdrop-blur-md"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-5xl max-h-[95vh] overflow-hidden bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl flex flex-col"
+      >
+        {/* Header / Top Bar */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
+              <div className="w-2.5 h-2.5 rounded-full bg-amber-500/40" />
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
+            </div>
+            <span className="ml-4 text-[10px] font-mono text-slate-500 uppercase tracking-widest hidden md:inline">
+              Project_Vault / {project.title.replace(/\s+/g, '_').toLowerCase()}.v2
+            </span>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-white transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="flex flex-col lg:flex-row flex-grow overflow-hidden">
+          {/* LEFT: Image Theater (Kita buong pic) */}
+          <div className="w-full lg:w-[65%] bg-black/50 relative flex items-center justify-center p-4 group">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={imgIndex}
+                src={images[imgIndex]}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="max-w-full max-h-[400px] lg:max-h-[600px] object-contain shadow-2xl rounded-lg"
+              />
+            </AnimatePresence>
+
+            {/* Navigation Arrows (Visible kung > 1 image) */}
+            {images.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImg}
+                  className="absolute left-4 p-3 bg-black/40 hover:bg-violet-600 backdrop-blur-md rounded-full text-white transition-all opacity-0 group-hover:opacity-100"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button 
+                  onClick={nextImg}
+                  className="absolute right-4 p-3 bg-black/40 hover:bg-violet-600 backdrop-blur-md rounded-full text-white transition-all opacity-0 group-hover:opacity-100"
+                >
+                  <ChevronRight size={24} />
+                </button>
+                
+                {/* Counter Tag */}
+                <div className="absolute bottom-6 px-4 py-1.5 bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-mono text-white/70">
+                  IMAGE {imgIndex + 1} / {images.length}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* RIGHT: Metadata & Specs */}
+          <div className="w-full lg:w-[35%] p-6 md:p-10 overflow-y-auto bg-[#0a0a0a] border-l border-white/5">
+            <div className="space-y-8">
+              <div>
+                <span className="text-violet-400 font-mono text-[10px] tracking-[0.4em] uppercase font-black">
+                  {project.category}
+                </span>
+                <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mt-2 leading-none">
+                  {project.title}
+                </h2>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-white/40 font-mono text-[10px] uppercase tracking-widest flex items-center gap-2">
+                  <Terminal size={14} /> System Description
+                </h4>
+                <p className="text-slate-400 leading-relaxed text-sm font-light">
+                  Project implementation for {project.title}. This architecture focuses on scalable data processing and seamless user integration.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-white/40 font-mono text-[10px] uppercase tracking-widest flex items-center gap-2">
+                  <Cpu size={14} /> Tech Stack
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((t: string) => (
+                    <span key={t} className="px-3 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono text-slate-300">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6 flex flex-col gap-3">
+                <button className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-2">
+                  <ExternalLink size={14} /> Launch Site
+                </button>
+                <button className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all">
+                  Documentation
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// --- 2. PROJECT CARD COMPONENT ---
+const ProjectCard = ({ p, index, onOpen }: { p: any; index: number; onOpen: (p: any) => void }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
-
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
 
@@ -29,114 +162,302 @@ const ProjectCard = ({ p, index }: { p: any; index: number }) => {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1], delay: (index % 3) * 0.1 }}
       className="relative group"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { x.set(0); y.set(0); }}
+      onClick={() => onOpen(p)}
     >
       <motion.div
         ref={cardRef}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative h-[380px] md:h-[450px] w-full rounded-[2rem] md:rounded-[2.5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 p-1.5 md:p-2 overflow-hidden shadow-2xl"
+        className="relative h-[380px] md:h-[450px] w-full rounded-[2.5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 p-2 overflow-hidden cursor-pointer"
       >
-        {/* TERMINAL SIDEBAR STRIP */}
-        <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 border-r border-white/5 bg-white/[0.02] flex flex-col items-center py-6 gap-3 md:gap-4 z-30">
-          <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-red-500/40" />
-          <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-amber-500/40" />
-          <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500/40" />
-          <div className="mt-auto rotate-180 [writing-mode:vertical-lr] text-[7px] md:text-[8px] font-mono text-slate-500 uppercase tracking-widest opacity-40">
-            PRJ-{p.id} // SRC.LNK
-          </div>
+        {/* Terminal Strip */}
+        <div className="absolute left-0 top-0 bottom-0 w-10 border-r border-white/5 bg-white/[0.02] flex flex-col items-center py-6 gap-4 z-30">
+          <div className="w-2 h-2 rounded-full bg-red-500/40" />
+          <div className="w-2 h-2 rounded-full bg-amber-500/40" />
+          <div className="w-2 h-2 rounded-full bg-emerald-500/40" />
         </div>
 
-        {/* INNER CONTAINER */}
-        <div className="relative ml-8 md:ml-10 h-full rounded-[1.6rem] md:rounded-[2rem] overflow-hidden bg-[#030014]">
-          {/* IMAGE LAYER (Recessed) */}
-          <motion.img
-            src={p.image}
-            alt={p.title}
-            style={{ transform: "translateZ(-30px) scale(1.2)" }}
-            className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-25 transition-all duration-700 ease-out"
-          />
-
-          {/* CONTENT LAYER */}
-          <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between z-20">
-            <div className="flex justify-between items-start" style={{ transform: "translateZ(50px)" }}>
-              <div className="bg-violet-500/10 backdrop-blur-xl border border-violet-500/20 px-3 md:px-4 py-1 rounded-lg">
-                <span className="text-[9px] md:text-[10px] font-mono text-violet-400 font-black uppercase tracking-tighter">
-                  {p.category}
-                </span>
+        <div className="relative ml-10 h-full rounded-[2rem] overflow-hidden bg-[#030014]">
+          <motion.img src={p.image} style={{ transform: "translateZ(-30px) scale(1.2)" }} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-20 transition-all duration-700" />
+          <div className="absolute inset-0 p-8 flex flex-col justify-between z-20">
+            <div style={{ transform: "translateZ(50px)" }}>
+              <div className="bg-violet-500/20 backdrop-blur-md border border-violet-500/30 px-4 py-1 rounded-lg w-fit">
+                <span className="text-[10px] font-mono text-violet-400 font-bold uppercase tracking-tighter">{p.category}</span>
               </div>
-              <Terminal size={14} className="text-white/20 hidden md:block" />
             </div>
-
-            <div className="space-y-4 md:space-y-6" style={{ transform: "translateZ(80px)" }}>
-              <h3 className="text-2xl md:text-4xl font-black text-white leading-[0.9] tracking-tighter uppercase">
-                {p.title.split(' ').map((word: string, i: number) => (
-                  <span key={i} className="block">{word}</span>
-                ))}
+            <div className="space-y-4" style={{ transform: "translateZ(80px)" }}>
+              <h3 className="text-3xl font-black text-white leading-[0.9] tracking-tighter uppercase">
+                {p.title.split(' ').map((word: string, i: number) => (<span key={i} className="block">{word}</span>))}
               </h3>
-
-              {/* TECH CHIPS (Floating) */}
-              <div className="flex flex-wrap gap-1.5 md:gap-2">
+              <div className="flex flex-wrap gap-2">
                 {p.tech.slice(0, 3).map((t: string) => (
-                  <span key={t} className="text-[8px] md:text-[9px] text-white/60 bg-white/5 backdrop-blur-md px-2 py-1 rounded border border-white/5">
-                    {t}
-                  </span>
+                  <span key={t} className="text-[9px] text-white/60 bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">{t}</span>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* POP-OUT ACTION BUTTONS */}
-          <div 
-            className="absolute bottom-6 right-6 flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-10 group-hover:translate-x-0 z-30"
-            style={{ transform: "translateZ(100px)" }}
-          >
-            <button className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white text-black flex items-center justify-center hover:bg-violet-600 hover:text-white transition-colors">
-              <Plus size={22} />
+          <div className="absolute bottom-6 right-6 flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-10 group-hover:translate-x-0 z-30" style={{ transform: "translateZ(100px)" }}>
+            <button 
+              onClick={(e) => { e.stopPropagation(); onOpen(p); }} 
+              className="w-12 h-12 rounded-2xl bg-white text-black flex items-center justify-center hover:bg-violet-600 hover:text-white transition-colors"
+            >
+              <Plus size={24} />
             </button>
-            <button className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 backdrop-blur-2xl border border-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-              <ExternalLink size={18} />
+            <button className="w-12 h-12 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors">
+              <ExternalLink size={20} />
             </button>
           </div>
         </div>
-
-        {/* SCANLINE OVERLAY */}
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_3px,2px_100%] z-40 opacity-30" />
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_3px,2px_100%] z-40 opacity-20" />
       </motion.div>
     </motion.div>
   );
 };
 
-// --- MAIN PROJECTS SECTION ---
+// --- 3. MAIN PROJECTS SECTION ---
 const Projects = () => {
   const [filter, setFilter] = useState("All");
   const [showAll, setShowAll] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   const allProjects = [
-    { id: 1, title: "Human Resource", category: "Full Stack", image: "/img-projects/hris4.jpg", tech: ["React.js", "Node.js", "MySql"] },
-    { id: 2, title: "Mall Management", category: "Full Stack", image: "/img-projects/mall1.jpg", tech: ["HTML5/CSS3", "PHP", "MySql"] },
-    { id: 3, title: "Dealer Management", category: "Full Stack", image: "/img-projects/dms4.jpg", tech: ["HTML5/CSS3", "PHP", "MySQL"] },
-    { id: 4, title: "Employee Management", category: "Full Stack", image: "/img-projects/portal1.jpg", tech: ["React.js", "Node.js", "MySQL"] },
-    { id: 5, title: "Mobius Wix Website", category: "Frontend", image: "/img-projects/mobius1.jpg", tech: ["Wix", "HTML5", "CSS3"] },
-    { id: 6, title: "Disciple Network", category: "Full Stack", image: "/img-projects/disciple2.jpg", tech: ["Vue.js", "Laravel", "Firebase"] },
-    { id: 7, title: "FPMI Marina", category: "Full Stack", image: "/img-projects/marina8.jpg", tech: ["Wix", "HTML5", "CSS3"] },
-    { id: 8, title: "City Portal", category: "Full Stack", image: "/img-projects/cityportal1.jpg", tech: ["HTML", "PHP", "MySql"] },
-    { id: 9, title: "A.I Course Generator", category: "Full Stack", image: "/img-projects/coursegenerator7.jpg", tech: ["Wix", "HTML5", "CSS3"] },
-    { id: 10, title: "Neflix Clone", category: "Full Stack", image: "/img-projects/netflix1.jpg", tech: ["HTML5", "React", "MongoDB"] },
-    { id: 11, title: "Online Store", category: "Full Stack", image: "/img-projects/store1.png", tech: ["HTML", "Laravel", "MySql"] },
-    { id: 12, title: "Ford Autos", category: "Frontend", image: "/img-projects/ford1.jpg", tech: ["HTML5", "CSS3", "JavaScript"] },
-    { id: 13, title: "Visitors Management", category: "Full Stack", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["HTML", "PHP", "MySql"] },
-    { id: 14, title: "Contact Tracing", category: "Full Stack", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["HTML", "PHP", "MySql"] },
-    { id: 15, title: "Equicom API", category: "Backend", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["HTML", "PHP", "MySql"] },
-    { id: 16, title: "Car Rental Website", category: "Frontend", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["HTML", "CSS", "JavaScript"] },
-    { id: 17, title: "Hotel APIs", category: "Full Stack", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["HTML", "PHP", "MySql"] },
-    { id: 18, title: "SMS APIs", category: "Backend", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["JavaScript", "PHP", "MySql"] },
-    { id: 19, title: "Siteminder APIs", category: "Backend", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["JavaScript", "PHP", "MySql"] },
-    { id: 20, title: "LG-TV APIs", category: "Backend", image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", tech: ["JavaScript", "PHP", "MySql"] },
-    { id: 21, title: "My Portfolio v.1", category: "Frontend", image: "/img-projects/portfolio1.jpg", tech: ["HTML", "JavaScript", "CSS"] },
+    { 
+      id: 1, 
+      title: "Human Resource", 
+      category: "Full Stack", 
+      image: "/img-projects/hris4.jpg", 
+      images: [
+        "/img-projects/hris4.jpg",
+        "https://images.unsplash.com/photo-1551288049-bbbda5366a7a?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop"
+      ],
+      tech: ["React.js", "Node.js", "MySql"] 
+    },
+    { 
+      id: 2, 
+      title: "Mall Management", 
+      category: "Full Stack", 
+      image: "/img-projects/mall1.jpg", 
+      images: [
+        "/img-projects/mall1.jpg",
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1964&auto=format&fit=crop"
+      ],
+      tech: ["HTML5/CSS3", "PHP", "MySql"] 
+    },
+    { 
+      id: 3, 
+      title: "Dealer Management", 
+      category: "Full Stack", 
+      image: "/img-projects/dms4.jpg", 
+      images: [
+        "/img-projects/dms4.jpg",
+        "https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?q=80&w=2050&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML5/CSS3", "PHP", "MySQL"] 
+    },
+    { 
+      id: 4, 
+      title: "Employee Management", 
+      category: "Full Stack", 
+      image: "/img-projects/portal1.jpg", 
+      images: [
+        "/img-projects/portal1.jpg",
+        "https://images.unsplash.com/photo-1454165833762-0204b2816718?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["React.js", "Node.js", "MySQL"] 
+    },
+    { 
+      id: 5, 
+      title: "Mobius Wix Website", 
+      category: "Frontend", 
+      image: "/img-projects/mobius1.jpg", 
+      images: [
+        "/img-projects/mobius1.jpg",
+        "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["Wix", "HTML5", "CSS3"] 
+    },
+    { 
+      id: 6, 
+      title: "Disciple Network", 
+      category: "Full Stack", 
+      image: "/img-projects/disciple2.jpg", 
+      images: [
+        "/img-projects/disciple2.jpg",
+        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["Vue.js", "Laravel", "Firebase"] 
+    },
+    { 
+      id: 7, 
+      title: "FPMI Marina", 
+      category: "Full Stack", 
+      image: "/img-projects/marina8.jpg", 
+      images: [
+        "/img-projects/marina8.jpg",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop"
+      ],
+      tech: ["Wix", "HTML5", "CSS3"] 
+    },
+    { 
+      id: 8, 
+      title: "City Portal", 
+      category: "Full Stack", 
+      image: "/img-projects/cityportal1.jpg", 
+      images: [
+        "/img-projects/cityportal1.jpg",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "PHP", "MySql"] 
+    },
+    { 
+      id: 9, 
+      title: "A.I Course Generator", 
+      category: "Full Stack", 
+      image: "/img-projects/coursegenerator7.jpg", 
+      images: [
+        "/img-projects/coursegenerator7.jpg",
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["Wix", "HTML5", "CSS3"] 
+    },
+    { 
+      id: 10, 
+      title: "Neflix Clone", 
+      category: "Full Stack", 
+      image: "/img-projects/netflix1.jpg", 
+      images: [
+        "/img-projects/netflix1.jpg",
+        "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=2069&auto=format&fit=crop"
+      ],
+      tech: ["HTML5", "React", "MongoDB"] 
+    },
+    { 
+      id: 11, 
+      title: "Online Store", 
+      category: "Full Stack", 
+      image: "/img-projects/store1.png", 
+      images: [
+        "/img-projects/store1.png",
+        "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "Laravel", "MySql"] 
+    },
+    { 
+      id: 12, 
+      title: "Ford Autos", 
+      category: "Frontend", 
+      image: "/img-projects/ford1.jpg", 
+      images: [
+        "/img-projects/ford1.jpg",
+        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1966&auto=format&fit=crop"
+      ],
+      tech: ["HTML5", "CSS3", "JavaScript"] 
+    },
+    { 
+      id: 13, 
+      title: "Visitors Management", 
+      category: "Full Stack", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "PHP", "MySql"] 
+    },
+    { 
+      id: 14, 
+      title: "Contact Tracing", 
+      category: "Full Stack", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "PHP", "MySql"] 
+    },
+    { 
+      id: 15, 
+      title: "Equicom API", 
+      category: "Backend", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=2026&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "PHP", "MySql"] 
+    },
+    { 
+      id: 16, 
+      title: "Car Rental Website", 
+      category: "Frontend", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "CSS", "JavaScript"] 
+    },
+    { 
+      id: 17, 
+      title: "Hotel APIs", 
+      category: "Full Stack", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "PHP", "MySql"] 
+    },
+    { 
+      id: 18, 
+      title: "SMS APIs", 
+      category: "Backend", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["JavaScript", "PHP", "MySql"] 
+    },
+    { 
+      id: 19, 
+      title: "Siteminder APIs", 
+      category: "Backend", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["JavaScript", "PHP", "MySql"] 
+    },
+    { 
+      id: 20, 
+      title: "LG-TV APIs", 
+      category: "Backend", 
+      image: "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg", 
+      images: [
+        "https://kevinrehan16.github.io/kevin-portfolio/assets/error/maintenancejpg.jpg",
+        "https://images.unsplash.com/photo-1593359677759-543734829316?q=80&w=2070&auto=format&fit=crop"
+      ],
+      tech: ["JavaScript", "PHP", "MySql"] 
+    },
+    { 
+      id: 21, 
+      title: "My Portfolio v.1", 
+      category: "Frontend", 
+      image: "/img-projects/portfolio1.jpg", 
+      images: [
+        "/img-projects/portfolio1.jpg",
+        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1955&auto=format&fit=crop"
+      ],
+      tech: ["HTML", "JavaScript", "CSS"] 
+    },
   ];
 
   const filteredProjects = allProjects.filter(p => filter === "All" || p.category === filter);
@@ -144,58 +465,87 @@ const Projects = () => {
 
   return (
     <section id="projects" className="relative py-20 md:py-32 bg-[#030014] overflow-hidden">
-      <div className="absolute top-0 right-0 w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-violet-600/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* --- HIGH-TECH BACKGROUND LAYER --- */}
+      {/* 1. Grid Mesh Pattern */}
+      <div 
+        className="absolute inset-0 z-0 opacity-10" 
+        style={{ 
+          backgroundImage: `linear-gradient(to right, #4f46e5 1px, transparent 1px), linear-gradient(to bottom, #4f46e5 1px, transparent 1px)`, 
+          backgroundSize: '45px 45px' 
+        }} 
+      />
+      {/* 2. Radial Gradient Fade (Para sa gitna lang yung focus ng grid) */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030014_70%)]" />
+      {/* 3. Decorative Glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-600/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-fuchsia-600/10 blur-[120px] rounded-full pointer-events-none" />
+      {/* --- END OF BACKGROUND --- */}
       
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-12 md:mb-20 gap-8">
-          <div className="max-w-3xl">
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} className="flex items-center gap-3 mb-4">
-              <div className="h-px w-8 md:w-12 bg-violet-500" />
-              <span className="text-violet-500 font-mono text-[10px] font-black tracking-[0.4em] uppercase">Archive</span>
-            </motion.div>
-            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase leading-none">
-              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-600">Projects</span>
-            </h2>
-          </div>
-
-          <div className="flex w-full lg:w-auto overflow-x-auto pb-4 lg:pb-0 no-scrollbar">
-            <div className="flex p-1 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl whitespace-nowrap">
-              {["All", "Full Stack", "Frontend", "Backend"].map((cat) => (
-                <button 
-                  key={cat}
-                  onClick={() => { setFilter(cat); setShowAll(false); }}
-                  className={`px-5 py-2 rounded-xl text-[10px] md:text-[11px] font-bold font-mono tracking-widest uppercase transition-all duration-300 ${
-                    filter === cat ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/40' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-12 md:mb-16 gap-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="space-y-4"
+          >
+            {/* SUB-HEADER */}
+            <div className="flex items-center gap-2">
+              <div className="h-[1px] w-8 bg-violet-500" />
+              <span className="text-violet-500 font-mono text-xs tracking-[0.3em] uppercase font-bold">
+                Archive
+              </span>
             </div>
+
+            {/* MAIN HEADER - Fixed casing (removed uppercase) & "s" cut fix */}
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight tracking-tighter">
+              Selected <span className="inline-block px-1 text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">Projects</span>
+            </h2>
+            
+            {/* <p className="text-slate-400 text-sm md:text-base font-light tracking-wide max-w-xl">
+              Get to know the person behind the code. Here's a quick overview of my background and core details.
+            </p> */}
+          </motion.div>
+
+          {/* TABS */}
+          <div className="flex p-1 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl">
+            {["All", "Full Stack", "Frontend", "Backend"].map((cat) => (
+              <button 
+                key={cat} 
+                onClick={() => { setFilter(cat); setShowAll(false); }} 
+                className={`px-6 py-2.5 rounded-xl text-[10px] font-bold font-mono tracking-widest uppercase transition-all ${
+                  filter === cat 
+                    ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/40' 
+                    : 'text-slate-500 hover:text-white'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
 
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {projectsToDisplay.map((p, index) => (
-              <ProjectCard key={p.id} p={p} index={index} />
+              <ProjectCard key={p.id} p={p} index={index} onOpen={setSelectedProject} />
             ))}
           </AnimatePresence>
         </motion.div>
 
         {!showAll && filteredProjects.length > 6 && (
-          <div className="mt-16 text-center">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowAll(true)}
-              className="w-full md:w-auto px-10 py-5 bg-transparent border border-violet-500/30 rounded-2xl text-white font-mono text-[10px] tracking-[0.4em] uppercase hover:bg-violet-600 transition-all duration-300"
-            >
+          <div className="mt-20 text-center">
+            <button onClick={() => setShowAll(true)} className="px-12 py-5 border border-violet-500/30 rounded-2xl text-white font-mono text-[10px] tracking-[0.4em] uppercase hover:bg-violet-600 transition-all">
               See All {filteredProjects.length} Projects
-            </motion.button>
+            </button>
           </div>
         )}
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 };
