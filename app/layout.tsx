@@ -7,7 +7,10 @@ import Navbar from "@/components/shared/Navbar";
 import CustomCursor from "@/components/shared/CustomCursor";
 import ScrollToTop from "@/components/shared/ScrollToTop";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Kevin Macandog | Full Stack Developer",
