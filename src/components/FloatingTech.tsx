@@ -143,8 +143,7 @@ const FloatingTech = () => {
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 z-20 flex items-center justify-center transition-all duration-300 ease-out 
-                       group-hover:opacity-5 group-hover:blur-[2px]"
+            className="relative inset-0 z-20 flex items-center justify-center transition-all duration-300 ease-out group-hover:opacity-5 group-hover:blur-[2px] w-[320px] md:w-[550px] h-[320px] md:h-[550px]"
           >
             <Image
               src="/img/white.png"
@@ -154,9 +153,11 @@ const FloatingTech = () => {
               priority
               unoptimized
               className="
-                w-[240px] md:w-[480px] h-auto object-contain
+                w-[300px] md:w-[480px] h-auto object-contain
                 transition-all duration-300 group-hover:grayscale
                 drop-shadow-[0_0_20px_rgba(180,126,222,0.35)]
+                /* Eto lang ang dinagdag para sa mobile fix */
+                [mask-image:linear-gradient(to_bottom,black_70%,transparent_95%)]
               "
             />
           </motion.div>
@@ -166,10 +167,10 @@ const FloatingTech = () => {
       {/* 2. ORBITING ICONS */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         {/* Container adjusts size based on screen */}
-        <div className="relative w-[300px] md:w-[680px] h-[300px] md:h-[680px]">
+        <div className="relative w-[350px] md:w-[680px] h-[350px] md:h-[680px]">
           {icons.map((tech, i) => {
             // FIX: Dynamic radius calculation to prevent overflow on mobile (390px width)
-            const radius = windowWidth < 768 ? 160 : 340;
+            const radius = windowWidth < 768 ? 185 : 340;
             const angle = (i * 360) / sides;
             const radian = (angle - 90) * (Math.PI / 180);
             const tx = Math.cos(radian) * radius;
