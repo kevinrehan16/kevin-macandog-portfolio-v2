@@ -125,7 +125,7 @@ const Hero = () => {
           variants={itemVariants}
           className="relative z-10 order-1 lg:order-2 flex justify-center items-center h-[300px] md:h-[500px] lg:h-[600px] w-full lg:-bottom-[95px] overflow-visible"
         >
-          <div className="scale-75 md:scale-100 flex items-center justify-center w-full h-full">
+          <div className="scale-90 md:scale-100 flex items-center justify-center w-full h-full">
              <FloatingTech />
           </div>
           <div className="absolute w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-[#d946ef]/10 blur-[80px] md:blur-[120px] rounded-full -z-10 animate-pulse" />
