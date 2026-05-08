@@ -531,7 +531,7 @@ const Projects = () => {
             </div>
 
             {/* MAIN HEADER - Fixed casing (removed uppercase) & "s" cut fix */}
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight tracking-tighter">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight tracking-tighter uppercase">
               Selected <span className="inline-block px-1 text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">Projects</span>
             </h2>
             

@@ -36,7 +36,7 @@ const About = () => {
           </div>
 
           {/* MAIN HEADER */}
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight uppercase">
             Personal <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">Information</span>
           </h2>
           
