@@ -86,7 +86,7 @@ const FloatingTech = () => {
         animate={{ x: mousePosition.x, y: mousePosition.y }}
         transition={{ type: "spring", stiffness: 35, damping: 25 }}
         // Responsive unit size
-        className="relative z-20 flex items-center justify-center w-[280px] md:w-[550px] h-[280px] md:h-[550px]"
+        className="relative z-20 flex items-center justify-center w-[350px] md:w-[550px] h-[350px] md:h-[550px]"
       >
         <div className="relative flex items-center justify-center w-full h-full group">
           
@@ -170,7 +170,7 @@ const FloatingTech = () => {
         <div className="relative w-[350px] md:w-[680px] h-[350px] md:h-[680px]">
           {icons.map((tech, i) => {
             // FIX: Dynamic radius calculation to prevent overflow on mobile (390px width)
-            const radius = windowWidth < 768 ? 185 : 340;
+            const radius = windowWidth < 768 ? 205 : 340;
             const angle = (i * 360) / sides;
             const radian = (angle - 90) * (Math.PI / 180);
             const tx = Math.cos(radian) * radius;
