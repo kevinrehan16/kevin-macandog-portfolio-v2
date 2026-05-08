@@ -26,6 +26,7 @@ export const metadata = {
     description: "Full Stack Software Developer specializing in React.js, Node.js, and Laravel. Explore my portfolio to see how I build efficient, scalable, and user-friendly web applications with clean code.",
     url: "https://kevin-macandog.vercel.app",
     siteName: "Kevin Macandog Portfolio",
+    type: "website",
     images: [
       {
         url: "https://kevin-macandog.vercel.app/img/my-website.jpg", // Siguraduhin na .png o .jpg ang tama
