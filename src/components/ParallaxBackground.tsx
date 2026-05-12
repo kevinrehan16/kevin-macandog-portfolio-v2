@@ -11,8 +11,8 @@ import CyberGridBackground from "./CyberGridBackground";
 const ContactAndFooter = () => {
   const footerRef = useRef(null);
 
-  const lat = 14.4660;
-  const lng = 121.0470;
+  const lat = 14.460316;
+  const lng = 121.049822;
 
   const { scrollYProgress } = useScroll({
     target: footerRef,
