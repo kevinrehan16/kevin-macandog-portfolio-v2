@@ -120,7 +120,10 @@ const Navbar = () => {
           </div>
 
           {/* HIRE ME BUTTON (Laging naka-Neon Glow) */}
-          <motion.button 
+          <motion.a 
+            href="https://www.linkedin.com/in/kevin-macandog-498697140/"
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             // Eto yung Alert Animation logic
@@ -147,7 +150,7 @@ const Navbar = () => {
             {activeSection === "contact" && (
               <span className="absolute inset-0 rounded-full bg-violet-400 animate-ping opacity-20 pointer-events-none" />
             )}
-          </motion.button>
+          </motion.a>
         </motion.nav>
       </header>
 
@@ -222,13 +225,16 @@ const Navbar = () => {
               </div>
 
               <div className="mt-auto pb-10">
-                <motion.button 
+                <motion.a 
+                  href="https://www.linkedin.com/in/kevin-macandog-498697140/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="relative flex items-center justify-center gap-2 px-6 py-4 ml-2 bg-violet-600 rounded-2xl hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all w-full shadow-[0_0_20px_rgba(139,92,246,0.7)] hover:shadow-[0_0_20px_rgba(139,92,246,1)]" // Default at Hover Glow
                 >
                   <Handshake size={16} />HIRE ME
-                </motion.button>
+                </motion.a>
               </div>
             </motion.div>
           </>

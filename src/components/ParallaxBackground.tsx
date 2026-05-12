@@ -90,7 +90,12 @@ const ContactAndFooter = () => {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 text-center">
           <p className="text-slate-500 font-mono text-[10px] md:text-sm mb-4 tracking-[0.4em] uppercase">Have a project in mind?</p>
-          <Link href="/contact" className="relative inline-block group">
+          <Link 
+            href="https://m.me/Kevin143777"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative inline-block group"
+          >
             <h2 className="text-[15vw] md:text-[11vw] font-black text-white leading-none tracking-tighter select-none transition-opacity duration-700 group-hover:opacity-0">
               LET'S WORK
             </h2>
