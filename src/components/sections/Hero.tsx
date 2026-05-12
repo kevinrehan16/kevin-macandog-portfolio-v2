@@ -48,6 +48,13 @@ const Hero = () => {
     },
   };
 
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section 
       ref={sectionRef}
@@ -101,14 +108,14 @@ const Hero = () => {
           </motion.div>
 
           <motion.div variants={itemVariants} className="mt-10 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4 px-4 lg:px-0">
-            <motion.a 
-              href="#contact"
+            <motion.button 
+              onClick={scrollToContact}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center justify-center gap-2 px-8 py-4 bg-violet-600 rounded-full hover:bg-violet-500 text-white text-xs font-bold tracking-widest transition-all hover:shadow-[0_0_30px_rgba(139,92,246,0.4)]"
             >
               <FaBriefcase /> INITIALIZE PROJECT
-            </motion.a>
+            </motion.button>
             <motion.a
               href="/file/Macandog_Kevin_CV.pdf" 
               download="Macandog_Kevin_CV"
