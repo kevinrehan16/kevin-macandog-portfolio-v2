@@ -6,6 +6,7 @@ import Navbar from "@/components/shared/Navbar";
 // import StarsCanvas from "@/components/canvas/Stars";
 import CustomCursor from "@/components/shared/CustomCursor";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -86,6 +87,15 @@ export default function RootLayout({
         <CustomCursor />
         <Navbar />
         {children}
+        <Toaster
+          toastOptions={{
+            style: {
+              background: '#333',
+              color: '#fff',
+              borderRadius: '10px',
+            },
+          }}
+        />
         <ScrollToTop />
       </body>
     </html>

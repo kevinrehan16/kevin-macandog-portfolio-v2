@@ -2,16 +2,27 @@
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Mail, Phone, ArrowUpRight } from "lucide-react";
+import toast from 'react-hot-toast';
 
 interface AnimatedFieldProps {
   type?: string;
   placeholder: string;
   isTextArea?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  tabIndex?: number;
 }
 
-const AnimatedField = ({ type = "text", placeholder, isTextArea = false }: AnimatedFieldProps) => {
+const AnimatedField = ({ placeholder, 
+  type = "text", 
+  isTextArea = false, 
+  value, 
+  onChange,
+  tabIndex
+}: AnimatedFieldProps) => {
+  
   const [isFocused, setIsFocused] = useState(false);
-  const baseStyles = "w-full bg-transparent py-4 text-white outline-none font-mono text-xs tracking-widest uppercase placeholder:text-slate-700 transition-all";
+  const baseStyles = "w-full bg-transparent py-4 text-white outline-none font-mono text-xs tracking-widest placeholder:text-slate-700 transition-all";
 
   return (
     <div className="relative w-full">
@@ -23,6 +34,9 @@ const AnimatedField = ({ type = "text", placeholder, isTextArea = false }: Anima
           required
           rows={4}
           className={`${baseStyles} resize-none`}
+          value={value}
+          onChange={onChange}
+          tabIndex={tabIndex}
         />
       ) : (
         <input
@@ -32,6 +46,9 @@ const AnimatedField = ({ type = "text", placeholder, isTextArea = false }: Anima
           onBlur={() => setIsFocused(false)}
           required
           className={baseStyles}
+          value={value}
+          onChange={onChange}
+          tabIndex={tabIndex}
         />
       )}
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/10" />
@@ -47,11 +64,59 @@ const AnimatedField = ({ type = "text", placeholder, isTextArea = false }: Anima
 
 const Contact = () => {
   const contactRef = useRef(null);
+  const [formData, setFormData] = useState({ subject: '', name: '', email: '', message: '' });
+  const [isLoading, setIsLoading] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: contactRef,
     offset: ["start end", "end start"],
   });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    toast.error("Please fill in all fields before sending.");
+    return; // Dito pa lang, titigil na ang function.
+  }
+  
+    setIsLoading(true);
+
+    // 1. Dito natin i-de-define ang promise
+    const sendPromise = fetch('/api/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    }).then(async (res) => {
+      if (!res.ok) {
+        // Kung hindi 200 ang response, mag-throw ng error para sa toast.error
+        throw new Error('Failed to send');
+      }
+      return res.json();
+    });
+
+    // 2. I-trigger ang toast using the promise
+    toast.promise(sendPromise, {
+      loading: 'Sending your message...',
+      success: 'Message sent! I will get back to you soon. 🚀',
+      error: 'Could not send message. Please try again.',
+    });
+
+    try {
+      // 3. Hintayin nating matapos ang promise
+      await sendPromise;
+      
+      // 4. Clear the form pag success
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      // 5. Patayin ang loading state kahit success o error
+      setIsLoading(false);
+    }
+  };
 
   // Responsive Parallax: Mas maliit ang movement sa mobile para hindi nakakahilo
   const yParallax = useTransform(scrollYProgress, [0, 1], [-50, 50]);
@@ -132,21 +197,55 @@ const Contact = () => {
 
               <form className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                 <div className="md:col-span-2">
-                  <AnimatedField type="text" placeholder="SUBJECT" />
+                  <AnimatedField 
+                    type="text" 
+                    placeholder="SUBJECT"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    tabIndex={1}
+                  />
                 </div>
-                <AnimatedField placeholder="YOUR NAME" />
-                <AnimatedField type="email" placeholder="EMAIL ADDRESS" />
+                <AnimatedField
+                  placeholder="YOUR NAME"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  tabIndex={2}
+                />
+                <AnimatedField
+                  type="email"
+                  placeholder="EMAIL ADDRESS"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  tabIndex={3}
+                />
                 <div className="md:col-span-2">
-                  <AnimatedField placeholder="TELL ME ABOUT YOUR VISION" isTextArea={true} />
+                  <AnimatedField 
+                    placeholder="TELL ME ABOUT YOUR VISION" 
+                    isTextArea={true} 
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    tabIndex={4}
+                  />
                 </div>
 
                 <div className="md:col-span-2 pt-6 md:pt-10">
-                  <button type="submit" className="group flex items-center gap-4 md:gap-6 text-white outline-none">
+                  <button 
+                    type="submit" 
+                    className="group flex items-center gap-4 md:gap-6 text-white outline-none"
+                    disabled={isLoading}
+                    onClick={handleSubmit}
+                  >
                     <div className="relative h-16 w-16 md:h-20 md:w-20 flex items-center justify-center rounded-full border border-white/20 group-hover:bg-violet-600 group-hover:border-violet-600 group-hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all duration-700">
-                      <ArrowUpRight
-                        size={24}
-                        className="group-hover:rotate-45 transition-transform duration-500"
-                      />
+                      {isLoading ? (
+                        <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        </svg>
+                      ) : (
+                        <ArrowUpRight
+                          size={24}
+                          className="group-hover:rotate-45 transition-transform duration-500"
+                        />
+                      )}  
                     </div>
                     <div className="flex flex-col items-start text-left">
                       <span className="text-xl md:text-2xl font-bold uppercase tracking-tighter group-hover:translate-x-2 transition-transform duration-500 group-hover:text-violet-500">
