@@ -77,13 +77,14 @@ const Navbar = () => {
   return (
     <>
       {/* --- DESKTOP NAVBAR --- */}
-      <header className="fixed -top-3 left-0 right-0 z-[100] hidden md:flex justify-center p-6 pointer-events-none">
+      {/* Iniba mula 'md:flex' papuntang 'lg:flex' para siguradong hindi mag-overlap ang mga links kapag sumisikip ang screen */}
+      <header className="fixed -top-3 left-0 right-0 z-[100] hidden lg:flex justify-center p-6 pointer-events-none">
         <motion.nav
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className={cn(
-            "pointer-events-auto flex items-center gap-[10rem] px-3 py-3 rounded-full border transition-all duration-300",
-            "bg-black/25 backdrop-blur-[30px] border-white/10", // Mas transparent at malinaw na glass effect
+            "pointer-events-auto flex items-center gap-4 xl:gap-[10rem] px-3 py-3 rounded-full border transition-all duration-300",
+            "bg-black/25 backdrop-blur-[30px] border-white/10",
             scrolled ? "border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : ""
           )}
         >
@@ -96,8 +97,7 @@ const Navbar = () => {
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link)}
                 className={cn(
-                  "relative px-4 py-2 text-xs font-medium tracking-widest uppercase rounded-full transition-all duration-300",
-                  // Inactive: slate-400/muted | Active or Hover: text-white
+                  "relative px-4 py-2 text-xs font-medium tracking-widest uppercase rounded-full transition-all duration-300 whitespace-nowrap",
                   activeSection === link.id ? "text-white" : "text-slate-500 hover:text-purple-300"
                 )}
               >
@@ -108,9 +108,9 @@ const Navbar = () => {
                   <motion.span 
                     layoutId="active-pill" 
                     transition={{
-                      type: "tween",      // Pinaka-importante: 'tween' para sa linear/smooth move
-                      ease: "easeOut",    // 'easeOut' para swabe ang paghinto, walang bounce
-                      duration: 0.3       // Bilis ng slide (0.3s is the sweet spot)
+                      type: "tween",
+                      ease: "easeOut",
+                      duration: 0.3
                     }}
                     className="absolute inset-0 bg-violet-600/40 rounded-full border border-violet-500 shadow-[0_0_15px_rgba(139,92,246,0.6)]" 
                   />
@@ -119,34 +119,31 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* HIRE ME BUTTON (Laging naka-Neon Glow) */}
           <motion.a 
             href="https://www.linkedin.com/in/kevin-macandog-498697140/"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            // Eto yung Alert Animation logic
             animate={activeSection === "contact" ? {
-              scale: [1, 1.1, 1], // Pulse effect
-              rotate: [0, -2, 2, -2, 0], // Subtle shake
+              scale: [1, 1.1, 1],
+              rotate: [0, -2, 2, -2, 0],
               boxShadow: [
                 "0 0 20px rgba(139,92,246,0.7)",
-                "0 0 40px rgba(139,92,246,1)", // Lalakas yung glow
+                "0 0 40px rgba(139,92,246,1)",
                 "0 0 20px rgba(139,92,246,0.7)"
               ]
             } : {}}
             transition={activeSection === "contact" ? {
               duration: 0.5,
               repeat: Infinity,
-              repeatDelay: 2 // Titigil siya ng 2 seconds bago mag-alert ulit
+              repeatDelay: 2
             } : {}}
-            className="relative flex items-center gap-2 px-6 py-3 ml-2 bg-violet-600 rounded-full hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(139,92,246,0.7)]"
+            className="relative flex items-center gap-2 px-6 py-3 ml-2 bg-violet-600 rounded-full hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all shrink-0 shadow-[0_0_20px_rgba(139,92,246,0.7)]"
           >
             <Handshake size={16} />
             HIRE ME
             
-            {/* Ping Effect (Optional: Isang ring na lumalabas mula sa button) */}
             {activeSection === "contact" && (
               <span className="absolute inset-0 rounded-full bg-violet-400 animate-ping opacity-20 pointer-events-none" />
             )}
@@ -155,7 +152,8 @@ const Navbar = () => {
       </header>
 
       {/* --- MOBILE TRIGGER --- */}
-      <div className="fixed top-6 right-6 z-[120] md:hidden">
+      {/* Iniba mula 'md:hidden' papuntang 'lg:hidden' para mag-match sa desktop breakpoint */}
+      <div className="fixed top-6 right-6 z-[120] lg:hidden">
         <button 
           onClick={() => setIsOpen(!isOpen)}
           className="
@@ -166,7 +164,6 @@ const Navbar = () => {
             border border-white/20 
             text-white 
             shadow-lg 
-            /* HOVER EFFECTS START HERE */
             transition-all duration-300
             hover:bg-violet-500/90 
             hover:scale-110 
@@ -182,25 +179,32 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <>
+            {/* Iniba mula 'md:hidden' papuntang 'lg:hidden' */}
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-[110] bg-black/40 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-[110] bg-black/40 backdrop-blur-sm lg:hidden"
             />
             
+            {/* 
+              Binago rito: 
+              1. 'md:hidden' naging 'lg:hidden'
+              2. 'w-[75%]' ginawang responsive ('w-[85%] sm:w-[60%] md:w-[45%]') para hindi super taba sa malalaking tablet.
+              3. Idinagdag ang 'overflow-y-auto max-h-screen' para kapag naka-landscape ang phone, pwedeng ma-scroll pababa ang mga links.
+            */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-screen w-[75%] z-[115] bg-white/5 backdrop-blur-[40px] border-l border-white/10 p-8 flex flex-col md:hidden shadow-[-10px_0_30px_rgba(0,0,0,0.5)]"
+              className="fixed top-0 right-0 h-screen w-[85%] sm:w-[60%] md:w-[45%] z-[115] bg-white/5 backdrop-blur-[40px] border-l border-white/10 p-8 flex flex-col overflow-y-auto max-h-screen lg:hidden shadow-[-10px_0_30px_rgba(0,0,0,0.5)]"
             >
-              <div className="flex items-center gap-4 mb-12">
+              <div className="flex items-center gap-4 mb-12 shrink-0">
                 <Logo />
                 <span className="font-black text-white tracking-[0.1em] text-lg uppercase">KevinM.</span>
               </div>
 
-              <div className="flex flex-col gap-4 mb-4">
+              <div className="flex flex-col gap-4 mb-6">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
@@ -224,14 +228,14 @@ const Navbar = () => {
                 ))}
               </div>
 
-              <div className="mt-auto pb-10">
+              <div className="mt-auto pt-4 pb-6 shrink-0">
                 <motion.a 
                   href="https://www.linkedin.com/in/kevin-macandog-498697140/"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative flex items-center justify-center gap-2 px-6 py-4 ml-2 bg-violet-600 rounded-2xl hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all w-full shadow-[0_0_20px_rgba(139,92,246,0.7)] hover:shadow-[0_0_20px_rgba(139,92,246,1)]" // Default at Hover Glow
+                  className="relative flex items-center justify-center gap-2 px-6 py-4 bg-violet-600 rounded-2xl hover:bg-violet-500 text-white text-xs font-bold tracking-widest uppercase transition-all w-full shadow-[0_0_20px_rgba(139,92,246,0.7)] hover:shadow-[0_0_20px_rgba(139,92,246,1)]"
                 >
                   <Handshake size={16} />HIRE ME
                 </motion.a>

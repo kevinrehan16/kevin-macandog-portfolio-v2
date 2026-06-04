@@ -270,8 +270,19 @@ const Projects = () => {
         "/img-projects/dms3.jpg",
         "/img-projects/dms4.jpg",
         "/img-projects/dms5.jpg",
+        "/img-projects/dms6.jpg",
+        "/img-projects/dms7.jpg",
+        "/img-projects/dms8.jpg",
+        "/img-projects/dms9.jpg",
+        "/img-projects/dms10.jpg",
+        "/img-projects/dms11.jpg",
+        "/img-projects/dms12.jpg",
+        "/img-projects/dms13.jpg",
+        "/img-projects/dms14.jpg",
+        "/img-projects/dms15.jpg",
+        "/img-projects/dms16.jpg",
       ],
-      tech: ["HTML5", "PHP", "MySql", "CSS3", "JavaScript", "JQuery", "Bootstrap", "Ajax"]
+      tech: ["React.js", "Laravel", "PostgreSQL", "React-bootstrap", "JavaScript", "HTML5", "Axios"]
     },
     { 
       id: 4, 
@@ -547,17 +558,17 @@ const Projects = () => {
           </motion.div>
 
           {/* TABS */}
-          <div className="flex p-1 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full relative">
+          <div className="flex w-full md:w-auto p-1 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full relative">
             {["All", "Fullstack", "Frontend", "Backend"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => { setFilter(cat); setShowAll(false); }}
-                className={`relative px-6 py-3 rounded-full text-[10px] font-bold font-mono tracking-widest uppercase transition-colors duration-300 z-10 ${
+                className={`relative flex-1 md:flex-initial px-3 sm:px-6 py-3 rounded-full text-[10px] font-bold font-mono tracking-widest uppercase transition-colors duration-300 z-10 ${
                   filter === cat ? 'text-white' : 'text-slate-500 hover:text-white'
                 }`}
               >
                 {/* 1. Eto yung text label */}
-                <span className="relative z-20">{cat}</span>
+                <span className="relative z-20 block text-center w-full">{cat}</span>
 
                 {/* 2. Eto yung moving background pill */}
                 {filter === cat && (
