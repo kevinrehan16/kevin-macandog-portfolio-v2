@@ -51,6 +51,9 @@ export const metadata = {
     description: "Full Stack Software Developer specializing in React.js, Node.js, and Laravel. Explore my portfolio to see how I build efficient, scalable, and user-friendly web applications with clean code.",
     images: ["https://kevin-macandog.vercel.app/img/my-website.jpg"],
   },
+  verification: {
+    google: 'UYmG5FXbKoYXGhlkye5ypVk1wOheoZTFqK5WbszOrMk',
+  },
 };
 
 export default function RootLayout({
