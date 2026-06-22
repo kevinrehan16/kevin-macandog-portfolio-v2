@@ -3,9 +3,10 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Plus, Terminal, ExternalLink, X, Cpu, ChevronLeft, ChevronRight } from "lucide-react";
 
-// --- 1. PROJECT MODAL COMPONENT (WITH IMAGE CAROUSEL) ---
+// --- 1. PROJECT MODAL COMPONENT (WITH IMAGE CAROUSEL & PRIVATE ALERT MODAL) ---
 const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void }) => {
   const [imgIndex, setImgIndex] = useState(0);
+  const [showPrivateModal, setShowPrivateModal] = useState(false); // NEW STATE FOR PRIVATE MODAL
   const images = project.images || [project.image]; // Fallback kung isa lang ang image
 
   const nextImg = (e: React.MouseEvent) => {
@@ -125,7 +126,10 @@ const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void 
               </div>
 
               <div className="pt-6 flex flex-col gap-3">
-                <button className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-2">
+                <button 
+                  onClick={() => setShowPrivateModal(true)} // TRIGGER THE MODAL HERE
+                  className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-2"
+                >
                   <ExternalLink size={14} /> Launch Site
                 </button>
                 <button className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all">
@@ -135,6 +139,49 @@ const ProjectModal = ({ project, onClose }: { project: any; onClose: () => void 
             </div>
           </div>
         </div>
+
+        {/* --- PRIVATE ACCESS MODAL OVERLAY --- */}
+        <AnimatePresence>
+          {showPrivateModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-[150] flex items-center justify-center p-4 bg-[#030014]/80 backdrop-blur-sm md:rounded-[2.5rem] rounded-[1.5rem]"
+              onClick={() => setShowPrivateModal(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl flex flex-col text-center items-center"
+              >
+                {/* Modal Icon */}
+                <div className="w-12 h-12 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center mb-4">
+                  <X className="text-violet-400" size={24} />
+                </div>
+                
+                <h3 className="text-white font-black text-xl tracking-wide uppercase mb-2">Access Restricted</h3>
+                
+                <div className="h-[1px] w-12 bg-violet-500/50 mb-4" />
+                
+                <p className="text-slate-400 text-sm leading-relaxed font-light mb-8">
+                  This project is privately owned by the client and is not publicly accessible. Due to confidentiality and ownership agreements, a live demo cannot be provided. Please review the project details and screenshots instead.
+                </p>
+                
+                <button
+                  onClick={() => setShowPrivateModal(false)}
+                  className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all"
+                >
+                  Close Message
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {/* --- END OF PRIVATE ACCESS MODAL --- */}
+
       </motion.div>
     </motion.div>
   );
